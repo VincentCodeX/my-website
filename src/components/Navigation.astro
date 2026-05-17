@@ -15,13 +15,13 @@ const relativePath = currentPath.replace(base.slice(0, -1), '') || '/';
         首頁
       </a>
       <a href={`${base}blog/`} class:list={['nav-link', { active: relativePath.startsWith('/部落格') }]}>
-        Blog
+        部落格
       </a>
       <a href={`${base}projects/`} class:list={['nav-link', { active: relativePath.startsWith('/專案') }]}>
-        Projects
+        專案
       </a>
       <a href={`${base}about/`} class:list={['nav-link', { active: relativePath.startsWith('/關於我') }]}>
-        About
+        關於我
       </a>
     </div>
 
