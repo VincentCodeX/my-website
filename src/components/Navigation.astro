@@ -12,15 +12,15 @@ const relativePath = currentPath.replace(base.slice(0, -1), '') || '/';
 
     <div class="nav-links">
       <a href={base} class:list={['nav-link', { active: relativePath === '/' }]}>
-        Home
+        首頁
       </a>
-      <a href={`${base}blog/`} class:list={['nav-link', { active: relativePath.startsWith('/blog') }]}>
+      <a href={`${base}blog/`} class:list={['nav-link', { active: relativePath.startsWith('/部落格') }]}>
         Blog
       </a>
-      <a href={`${base}projects/`} class:list={['nav-link', { active: relativePath.startsWith('/projects') }]}>
+      <a href={`${base}projects/`} class:list={['nav-link', { active: relativePath.startsWith('/專案') }]}>
         Projects
       </a>
-      <a href={`${base}about/`} class:list={['nav-link', { active: relativePath.startsWith('/about') }]}>
+      <a href={`${base}about/`} class:list={['nav-link', { active: relativePath.startsWith('/關於我') }]}>
         About
       </a>
     </div>
