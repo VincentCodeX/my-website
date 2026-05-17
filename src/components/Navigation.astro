@@ -8,7 +8,7 @@ const relativePath = currentPath.replace(base.slice(0, -1), '') || '/';
 
 <nav class="nav">
   <div class="nav-container">
-    <a href={base} class="logo"><img src={`${base}favicon.svg`} style="width:24px;height:24px;vertical-align:flex-start;margin-right:6px;" />文森遊戲 ✦</a>
+    <a href={base} class="logo" style="display:flex;align-items:center;gap:8px;"><img src={`${base}favicon.svg`} style="width:24px;height:24px;margin-top:2px;" />文森遊戲 ✦</a>
 
     <div class="nav-links">
       <a href={base} class:list={['nav-link', { active: relativePath === '/' }]}>
