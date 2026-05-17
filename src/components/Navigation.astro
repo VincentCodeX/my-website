@@ -39,10 +39,10 @@ const relativePath = currentPath.replace(base.slice(0, -1), '') || '/';
 <!-- Mobile menu overlay -->
 <div class="mobile-menu" id="mobile-menu">
   <div class="mobile-menu-content">
-    <a href={base} class:list={['mobile-nav-link', { active: relativePath === '/' }]}>Home</a>
-    <a href={`${base}blog/`} class:list={['mobile-nav-link', { active: relativePath.startsWith('/blog') }]}>Blog</a>
-    <a href={`${base}projects/`} class:list={['mobile-nav-link', { active: relativePath.startsWith('/projects') }]}>Projects</a>
-    <a href={`${base}about/`} class:list={['mobile-nav-link', { active: relativePath.startsWith('/about') }]}>About</a>
+    <a href={base} class:list={['mobile-nav-link', { active: relativePath === '/' }]}>首頁</a>
+    <a href={`${base}blog/`} class:list={['mobile-nav-link', { active: relativePath.startsWith('/blog') }]}>部落格</a>
+    <a href={`${base}projects/`} class:list={['mobile-nav-link', { active: relativePath.startsWith('/projects') }]}>專案</a>
+    <a href={`${base}about/`} class:list={['mobile-nav-link', { active: relativePath.startsWith('/about') }]}>關於我</a>
   </div>
 </div>
 
