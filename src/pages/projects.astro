@@ -10,8 +10,8 @@ const otherProjects = allProjects.filter(p => !p.data.featured);
 ---
 
 <BaseLayout
-  title="Projects - Darkness"
-  description="Portfolio of dark-themed web projects and experiments"
+  title="文森｜專案集"
+  description="大部分專案都與遊戲內容創作、AI 工具應用，以及網頁架構相關，歡迎隨意瀏覽和提供反饋！"
 >
   <Navigation />
 
@@ -46,7 +46,7 @@ const otherProjects = allProjects.filter(p => !p.data.featured);
 
       {otherProjects.length > 0 && (
         <section class="other-projects">
-          <h2 class="section-title">Other Projects</h2>
+          <h2 class="section-title">其他專案</h2>
           <div class="projects-grid">
             {otherProjects.map((project) => (
               <ProjectCard
