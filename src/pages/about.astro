@@ -10,25 +10,23 @@ const base = import.meta.env.BASE_URL;
 
   <main class="about-page">
     <div class="container">
-      <h1 class="page-title">About Me</h1>
+      <h1 class="page-title">關於我</h1>
 
       <div class="content-grid">
         <section class="content-section intro-section">
-          <h2>Hello, I'm Darkness</h2>
+          <h2>你好！我是黃昇瑞</h2>
           <p>
-            I'm a web developer and creative coder passionate about building immersive digital experiences.
-            My work sits at the intersection of art and technology, where I explore the possibilities of
-            modern web technologies to create visually striking, motion-rich interfaces.
+            我是文森，一個持續在摸索創作與工具的人。
+            目前專注在遊戲內容與 AI 應用的結合，慢慢找出適合自己的節奏。
           </p>
           <p>
-            With a deep love for dark aesthetics and smooth animations, I specialize in crafting websites
-            that aren't just functional—they're experiences that captivate and engage users from the moment
-            they land on the page.
+            我主要製作遊戲相關的內容，包含攻略、體驗分享，以及一些實驗性的 AI 應用。
+            也會把學到的東西整理成比較好理解的形式，讓自己和別人都能用得上。
           </p>
         </section>
 
         <section class="content-section">
-          <h2>What I Do</h2>
+          <h2>我在做什麼</h2>
           <div class="what-i-do-grid">
             <div class="service-card">
               <div class="service-icon">
@@ -38,8 +36,8 @@ const base = import.meta.env.BASE_URL;
                   <circle cx="12" cy="12" r="2"></circle>
                 </svg>
               </div>
-              <h3>Creative Development</h3>
-              <p>Building unique web experiences with Three.js, WebGL, and advanced CSS animations.</p>
+              <h3>AI 工具探索</h3>
+              <p>持續嘗試各種 AI 工具，把它們變成日常可用的幫手，像是 Gemini、ChatGPT、Claude 等，慢慢整理出適合自己的使用方式。</p>
             </div>
             <div class="service-card">
               <div class="service-icon">
@@ -47,8 +45,8 @@ const base = import.meta.env.BASE_URL;
                   <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                 </svg>
               </div>
-              <h3>Performance Optimization</h3>
-              <p>Ensuring smooth 60fps animations and optimal loading times with modern tooling.</p>
+              <h3>網頁架構</h3>
+              <p>自己動手打造網站，從架構到部署都親自嘗試。目前主要使用 Astro、Cloudflare、GitHub 和 Visual Studio Code，一步一步把想法變成實際的頁面。</p>
             </div>
             <div class="service-card">
               <div class="service-icon">
@@ -58,8 +56,8 @@ const base = import.meta.env.BASE_URL;
                   <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
                 </svg>
               </div>
-              <h3>3D Graphics</h3>
-              <p>Creating particle systems, geometric patterns, and interactive 3D elements for the web.</p>
+              <h3>YouTube 影片</h3>
+              <p>經營 YouTube 頻道，內容以遊戲為主，包含攻略、開箱，以及 AI 相關分享，也慢慢嘗試不同類型的題材。</p>
             </div>
             <div class="service-card">
               <div class="service-icon">
@@ -67,38 +65,34 @@ const base = import.meta.env.BASE_URL;
                   <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                 </svg>
               </div>
-              <h3>Dark UI Design</h3>
-              <p>Designing beautiful dark-themed interfaces with carefully crafted color palettes.</p>
+              <h3>AI 自動化工具</h3>
+              <p>透過 AI 與 API 的搭配，製作一些讓工作更省力的小工具。目前多應用在影片剪輯流程與日常處理上，讓原本繁瑣的事情變得簡單一點。</p>
             </div>
           </div>
         </section>
 
         <section class="content-section">
-          <h2>My Approach</h2>
+          <h2>我的方法</h2>
           <p>
-            I believe that motion is emotion. Every animation, every transition, every particle movement
-            should have a purpose—to guide, to delight, or to immerse. I'm constantly pushing the boundaries
-            of what's possible on the web, experimenting with new techniques and technologies.
+            我習慣用「先做出來，再慢慢優化」的方式前進。
           </p>
           <p>
-            Whether it's a personal blog, a portfolio site, or a complex web application, I approach each
-            project with the same goal: create something that stands out, performs well, and provides an
-            unforgettable user experience.
+            不追求完美，而是讓每一次產出都比上一次更清楚一點。
           </p>
         </section>
 
         <section class="content-section cta-section">
-          <h2>Let's Connect</h2>
-          <p>Interested in working together or just want to chat about web animations and dark design?</p>
+          <h2>與我聯繫</h2>
+          <p>如果你對我的內容有興趣，或剛好也在做類似的事情，都可以透過我的頻道或網站聯繫我，一起交流也不錯。</p>
           <div class="contact-buttons">
             <a href={`${base}projects/`} class="btn btn-primary">
-              View My Work
+              看看我的專案
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
             </a>
-            <a href={`${base}blog/`} class="btn btn-secondary">Read My Blog</a>
+            <a href={`${base}blog/`} class="btn btn-secondary">閱讀我的部落格</a>
           </div>
         </section>
       </div>
