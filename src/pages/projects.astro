@@ -18,15 +18,16 @@ const otherProjects = allProjects.filter(p => !p.data.featured);
   <main class="projects-page">
     <div class="container">
       <header class="projects-header">
-        <h1 class="page-title">Projects</h1>
+        <h1 class="page-title">專案</h1>
         <p class="page-subtitle">
-          A collection of dark-themed experiments and web projects
+          這裡是我在網路上公開的專案集合，包含一些實驗性質的作品和正在進行中的項目。
+          大部分專案都與遊戲內容創作、AI 工具應用，以及網頁架構相關，歡迎隨意瀏覽和提供反饋！
         </p>
       </header>
 
       {featuredProjects.length > 0 && (
         <section class="featured-section">
-          <h2 class="section-title">Featured Projects</h2>
+          <h2 class="section-title">精選專案</h2>
           <div class="projects-grid featured-grid">
             {featuredProjects.map((project) => (
               <ProjectCard
