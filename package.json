@@ -12,13 +12,8 @@
     "three.js",
     "typescript"
   ],
-  "author": "kpab",
+  "author": "Vincent",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kpab/astro-darkness"
-  },
-  "homepage": "https://kpab.github.io/astro-darkness",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
