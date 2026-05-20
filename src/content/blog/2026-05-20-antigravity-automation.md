@@ -1,7 +1,8 @@
 ---
 title: "從 AntiGravity 2.0 談起：我的部落格寫作自動化奇幻旅程"
-date: 2026-05-20
-tags: ["AntiGravity", "自動化腳本", "學習筆記", "Workflow"]
+description: "這篇文章記錄我使用 AntiGravity 2.0 的心得"
+pubDate: 2026-05-20
+tags: ["AntiGravity", "自動化腳本"]
 categories: ["技術隨筆"]
 draft: false
 ---
