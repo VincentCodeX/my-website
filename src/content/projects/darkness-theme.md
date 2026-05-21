@@ -3,6 +3,7 @@ title: '網站架設 - 天文主題'
 description: '2026年5月時架設的個人化風格的網站，一個沒有程式經驗的人可以做到什麼程度？'
 image: '/favicon.svg'
 tags: ['astro', 'three.js', 'dark-theme', 'animations']
+website: 'https://www.next-level-creative.com/'
 featured: true
 ---
 
@@ -20,5 +21,3 @@ The theme you're currently viewing! Darkness is an experimental Astro theme that
 ## Tech Stack
 
 Built with modern web technologies for optimal performance and developer experience.
-
-website: 'https://www.next-level-creative.com/'
