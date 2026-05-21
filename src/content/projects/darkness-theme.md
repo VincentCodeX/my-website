@@ -1,8 +1,8 @@
 ---
 title: '網站架設 - 天文主題'
-description: '2026年5月時架設的個人化風格的網站，一個沒有程式經驗的人可以做到什麼程度？'
+description: '2026年5月時架設的個人化風格的網站，沒有程式經驗可以做到什麼程度？'
 image: '/favicon.svg'
-tags: ['astro', 'three.js', 'dark-theme', 'animations']
+tags: ['Astro', '3D粒子', '主題', '網站架設']
 website: 'https://www.next-level-creative.com/'
 featured: true
 ---
