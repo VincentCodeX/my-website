@@ -10,7 +10,7 @@ interface Props {
 }
 
 const base = import.meta.env.BASE_URL;
-const { title, description, image, link, github, tags, featured } = Astro.props;
+const { title, description, image, link, tags, featured } = Astro.props;
 const imageSrc = image?.startsWith("/") ? `${base}${image.slice(1)}` : image;
 ---
 
@@ -85,7 +85,6 @@ const imageSrc = image?.startsWith("/") ? `${base}${image.slice(1)}` : image;
         </svg>
         我早期由Wix架設的個人網站歡迎參觀！
       </a>
-      )}
     </div>
   </div>
 </article>
