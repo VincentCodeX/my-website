@@ -1,10 +1,9 @@
 -----
-
-## title: “聊個天就自動發文？我用 Claude + Automator + GitHub 打造零摩擦部落格流程”
+title: “聊個天就自動發文？我用 Claude + Automator + GitHub 打造零摩擦部落格流程”
 description: “從聊天到文章上線，只需要丟一個檔案。這篇分享我怎麼把 Claude 專案、Automator、GitHub、Cloudflare 全部串起來，讓發文變成世界上最簡單的事。”
 pubDate: “2026-05-21”
 tags: [“自動化”, “Claude AI”, “部落格”, “GitHub”, “Automator”]
-
+-----
 > 🎯 **這篇文章想分享給：**
 > 想經營部落格、但每次發文都覺得流程超麻煩的創作者
 
