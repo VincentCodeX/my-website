@@ -1,8 +1,7 @@
 ---
-title: 'Darkness - Astro Theme'
-description: 'A heavily modified dark theme with Three.js particles and intense animations'
+title: '網站架設 - 天文主題'
+description: '2026年5月時架設的個人化風格的網站，一個沒有程式經驗的人可以做到什麼程度？'
 image: '/favicon.svg'
-github: 'https://github.com/yourusername/astro-darkness'
 tags: ['astro', 'three.js', 'dark-theme', 'animations']
 featured: true
 ---
