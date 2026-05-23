@@ -151,7 +151,22 @@ const base = import.meta.env.BASE_URL;
   .content-section p:last-of-type {
     margin-bottom: 0;
   }
+/* CTA 區塊專屬覆蓋 */
+.cta-section {
+  text-align: center;
+  padding: 3rem 2rem;        /* 比一般 section 多一點 */
+}
 
+.cta-section p {
+  margin-bottom: 2rem;       /* 文字與按鈕的間距 ← 關鍵 */
+}
+
+.contact-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
   .what-i-do-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
