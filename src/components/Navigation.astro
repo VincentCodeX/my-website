@@ -46,7 +46,7 @@ const relativePath = currentPath.replace(base.slice(0, -1), '') || '/';
     <a href={`${base}blog/`} class:list={['mobile-nav-link', { active: relativePath.startsWith('/blog') }]}>部落格</a>
     <a href={`${base}projects/`} class:list={['mobile-nav-link', { active: relativePath.startsWith('/projects') }]}>專案</a>
     <a href={`${base}about/`} class:list={['mobile-nav-link', { active: relativePath.startsWith('/about') }]}>關於我</a>
-  
+    <a href="/youtube/" class:list={['mobile-nav-link', { active: relativePath.startsWith('/youtube') }]}>YouTube</a>
   </div>
 </div>
 
