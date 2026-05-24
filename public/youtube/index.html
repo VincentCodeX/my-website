@@ -817,7 +817,7 @@ const bi = setInterval(() => {
     const geo = new THREE.PlaneGeometry(120, 80, 40, 30);
     const pos = geo.getAttribute('position');
     for (let i = 0; i < pos.count; i++) pos.setZ(i, Math.random() * 2);
-    const mat = new THREE.MeshBasicMaterial({ color: 0x00F0FF, wireframe: true, transparent: true, opacity: .12 });
+    const mat = new THREE.MeshBasicMaterial({ color: 0x00F0FF, wireframe: true, transparent: true, opacity: .35 });
     const plane = new THREE.Mesh(geo, mat);
     plane.rotation.x = -Math.PI / 2;
     plane.position.y = -5;
@@ -828,7 +828,7 @@ const bi = setInterval(() => {
     const arr  = new Float32Array(700 * 3);
     for (let i = 0; i < arr.length; i++) arr[i] = (Math.random() - .5) * 100;
     pGeo.setAttribute('position', new THREE.BufferAttribute(arr, 3));
-    const pMat  = new THREE.PointsMaterial({ size: .13, color: 0x00FF41, transparent: true, opacity: .35 });
+    const pMat  = new THREE.PointsMaterial({ size: .25, color: 0x00FF41, transparent: true, opacity: .7 });
     const pts   = new THREE.Points(pGeo, pMat);
     scene.add(pts);
 
