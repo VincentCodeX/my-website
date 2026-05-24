@@ -1,8 +1,8 @@
 ---
-title: '網站架設 - 天文主題'
-description: '2026年5月時架設的個人化風格的網站，沒有程式經驗可以做到什麼程度？'
+title: '自製零成本自動化網站'
+description: '2026年5月 | 透過 AI 協助架設的個人風格網站'
 image: '/favicon.svg'
-tags: ['Astro', '3D粒子', '主題', '網站架設']
+tags: ['Astro', 'Mac-Automator', 'GitHub-Pages', 'Cloudflare']
 website: 'https://www.next-level-creative.com/'
 featured: true
 ---
