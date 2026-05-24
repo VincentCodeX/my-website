@@ -23,6 +23,9 @@ const relativePath = currentPath.replace(base.slice(0, -1), '') || '/';
       <a href={`${base}about/`} class:list={['nav-link', { active: relativePath.startsWith('/About') }]}>
         關於我
       </a>
+      <a href="/youtube/" class:list={['nav-link', { active: relativePath === '/youtube/' }]}>
+  YouTube
+</a>
     </div>
 
     <!-- Mobile menu button -->

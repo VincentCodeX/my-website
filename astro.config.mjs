@@ -6,6 +6,6 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://my-website-20m.pages.dev',
   base: '/',
-  trailingSlash: 'always',
+  trailingSlash: 'ignore',
   integrations: [mdx(), sitemap()],
 });
