@@ -17,9 +17,12 @@ tags: ["AI工具", "本地AI", "Gemma"]
 <div style="text-align:center;">
   <img
     src="/images/gemma4-local-ai.webp"
-    alt="手機本地跑 Gemma 4 AI 導致發燙示意圖"
-    width="700"
-    style="border-radius:12px;"
+    style="
+      width: 100%;
+      max-width: 700px;
+      height: auto;
+      border-radius: 12px;
+    "
   />
 </div>
 
