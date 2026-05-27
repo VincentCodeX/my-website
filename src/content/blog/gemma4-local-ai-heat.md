@@ -14,7 +14,7 @@ tags: ["AI工具", "本地AI", "Gemma"]
 
 最近台灣連日高溫，熱到人都快融化。結果我自己還主動幫手機加溫——因為心血來潮把 Google 的 Gemma 4 下載下來，想說這種可以本地跑的 AI 感覺很酷，離線也能用、又不用付費，聽起來根本完美。
 
-<img src="gemma4-local-ai.webp" alt="手機本地跑 Gemma 4 AI 導致發燙示意圖" width="760" />
+![手機本地跑 Gemma 4 AI 導致發燙示意圖](./gemma4-local-ai.webp)
 
 <hr />
 
