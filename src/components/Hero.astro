@@ -26,6 +26,13 @@ const base = import.meta.env.BASE_URL;
       </a>
     </div>
 
+    <!-- 行銷工具按鈕 -->
+    <div class="tool-link">
+      <a href="https://vincentcodex.github.io/Marketing-Tools/" target="_blank" rel="noopener" class="btn-tool">
+        🧰 整合行銷工具盒
+      </a>
+    </div>
+
     <!-- Tech stack badges -->
     <div class="tech-stack">
       <span class="tech-badge">遊戲</span>
@@ -120,6 +127,31 @@ const base = import.meta.env.BASE_URL;
     justify-content: center;
     flex-wrap: wrap;
     margin-bottom: 3rem;
+  }
+
+.tool-link {
+    margin-bottom: 2rem;
+  }
+
+  .btn-tool {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.4rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-dim);
+    border: 1px dashed var(--color-border);
+    border-radius: 2rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-tool:hover {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    border-style: solid;
+    background: rgba(59, 130, 246, 0.08);
   }
 
   .btn {
