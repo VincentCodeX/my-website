@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://my-website-20m.pages.dev',
+  site: 'https://vincent2077.com',
   base: '/',
   trailingSlash: 'ignore',
   integrations: [mdx(), sitemap()],
