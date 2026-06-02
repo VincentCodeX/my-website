@@ -1,13 +1,12 @@
-# Darkness - Astro Dark Theme
+# Vincent's Personal Site
 
-A dark-themed Astro portfolio/blog template with Three.js particles and modern animations.
+My personal website built with Astro — covering games, AI tools, and creative work.
 
-[![Version](https://img.shields.io/badge/version-1.0.3-blue)](https://github.com/kpab/astro-darkness/releases/tag/v1.0.3)
 [![Astro](https://img.shields.io/badge/Astro-5.0-purple)](https://astro.build/)
 [![Three.js](https://img.shields.io/badge/Three.js-0.160-blue)](https://threejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**[Live Demo](https://kpab.github.io/astro-darkness)**
+**[Live Site](https://vincent2077.com)**
 
 ## Features
 
@@ -22,9 +21,9 @@ A dark-themed Astro portfolio/blog template with Three.js particles and modern a
 ## Quick Start
 
 ```bash
-# Clone this template
-git clone https://github.com/kpab/astro-darkness.git
-cd astro-darkness
+# Clone this repo
+git clone https://github.com/VincentCodeX/my-website.git
+cd my-website
 
 # Install dependencies
 npm install
@@ -47,7 +46,7 @@ Create markdown files in `src/content/blog/`:
 title: 'Your Post Title'
 description: 'Brief description'
 pubDate: 2025-12-15
-tags: ['astro', 'three.js']
+tags: ['astro', 'ai']
 ---
 
 Your content here...
@@ -83,14 +82,12 @@ Edit CSS variables in `src/styles/global.css`:
 
 ## Project Structure
 
-```
 src/
 ├── components/    # Reusable components
 ├── content/       # Blog posts & projects (Markdown)
 ├── layouts/       # Page layouts
 ├── pages/         # Routes
 └── styles/        # Global styles
-```
 
 ## Tech Stack
 
@@ -103,6 +100,9 @@ src/
 
 MIT - see [LICENSE](LICENSE)
 
+> Template: [astro-darkness](https://github.com/kpab/astro-darkness) by kpab
+
 ---
 
-Made by [kpab](https://github.com/kpab)
+Made by [Vincent](https://vincent2077.com)
+
