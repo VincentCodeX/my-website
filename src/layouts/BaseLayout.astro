@@ -17,7 +17,7 @@ const {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-TW">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -27,6 +27,10 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={`https://vincent2077.com${Astro.url.pathname}`} />
+    <meta property="og:locale" content="zh_TW" />
+    <meta property="og:site_name" content="文森｜遊戲 × AI × 創作" />
+    <link rel="canonical" href={`https://vincent2077.com${Astro.url.pathname}`} />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
   
     <!-- Google Fonts: Space Grotesk + DM Sans -->
