@@ -3,15 +3,25 @@ title: "AI 角色授權和 AI 世界模型，正在把遊戲變成新的戰場"
 description: "Hasbro 推出 Sixth Wall 授權 AI 角色，Roblox 則把世界模型接進遊戲引擎。AI 進遊戲的下一步，可能不只是 NPC 會聊天，而是角色、IP 和世界本身都開始被重新定義。"
 pubDate: "2026-06-04"
 tags: ["AI", "電玩", "遊戲產業", "科技時事", "AI 角色", "AI NPC", "世界模型", "Roblox", "Hasbro", "生成式AI遊戲"]
+heroImage: "/images/ai-characters-world-models-1.webp"
 ---
-
-![首圖](/images/ai-characters-world-models-1.webp)
-
-
 > 🎯 **這篇文章想分享給：**
 > 如果你最近看到很多「AI NPC」、「AI 生成遊戲」的討論，但覺得它好像還停在概念階段，這篇想整理兩則最近的消息：一個關於角色授權，一個關於遊戲世界本身。
 
 <hr />
+
+
+<div style="text-align:center;">
+  <img
+    src="/images/ai-characters-world-models-1.webp"
+    style="
+      width: 100%;
+      max-width: 700px;
+      height: auto;
+      border-radius: 12px;
+    "
+  />
+</div>
 
 ## 🪐 1. 出發點
 
@@ -28,7 +38,19 @@ tags: ["AI", "電玩", "遊戲產業", "科技時事", "AI 角色", "AI NPC", "�
 <hr />
 
 
-![插圖](/images/ai-characters-world-models-2.webp)
+
+
+<div style="text-align:center;">
+  <img
+    src="/images/ai-characters-world-models-2.webp"
+    style="
+      width: 100%;
+      max-width: 700px;
+      height: auto;
+      border-radius: 12px;
+    "
+  />
+</div>
 
 ## 🛠️ 2. 我整理出的三個重點
 
