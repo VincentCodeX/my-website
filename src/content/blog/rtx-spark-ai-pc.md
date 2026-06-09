@@ -5,11 +5,9 @@ pubDate: "2026-06-05"
 tags: ["AI", "NVIDIA"]
 heroImage: "/images/rtx-spark-ai-pc-hero.webp"
 ---
+
 > 🎯 **這篇文章想分享給：**
 > 如果你最近也被「AI PC」這個詞搞得一頭霧水，不知道它跟你現在的電腦到底差在哪、值不值得關注，這篇就是幫你理清楚的。
-
-<hr />
-
 
 <div style="text-align:center;">
   <img
@@ -22,7 +20,6 @@ heroImage: "/images/rtx-spark-ai-pc-hero.webp"
     "
   />
 </div>
-
 
 ## 🪐 1. 出發點
 
@@ -38,11 +35,11 @@ heroImage: "/images/rtx-spark-ai-pc-hero.webp"
 
 RTX Spark 的核心概念，就是把本來只存在於大型資料中心的 AI 算力，塞進一塊筆電晶片裡。
 
-* **💡 關鍵點 A：超級晶片架構** 它把 Blackwell GPU 和 Grace CPU 整合在同一塊晶片上，透過 NVLink 技術連接、共享最高 128GB 的統一記憶體。這個架構解決了過去 AI PC 的老問題：CPU 跟 GPU 之間傳資料太慢，導致跑 AI 效率很差。桌機版的算力最高可到 20 petaflops，這個數字過去只會出現在資料中心的規格表上。
+- **💡 關鍵點 A：超級晶片架構** 它把 Blackwell GPU 和 Grace CPU 整合在同一塊晶片上，透過 NVLink 技術連接、共享最高 128GB 的統一記憶體。這個架構解決了過去 AI PC 的老問題：CPU 跟 GPU 之間傳資料太慢，導致跑 AI 效率很差。桌機版的算力最高可到 20 petaflops，這個數字過去只會出現在資料中心的規格表上。
 
-* **💡 關鍵點 B：讓 AI Agent 住在你電腦裡** 黃仁勳把 RTX Spark 定位成「跑 AI Agent 的硬體基礎」。這裡的 Agent 不是一般的 AI 對話，而是你交代一個目標，它自己拆解任務、決定用什麼工具、跑完整個流程再回報給你。重點是：這一切跑在本機，不需要傳資料到雲端。對企業來說，這代表資料安全性更高，長期也能省下雲端訂閱費用。
+- **💡 關鍵點 B：讓 AI Agent 住在你電腦裡** 黃仁勳把 RTX Spark 定位成「跑 AI Agent 的硬體基礎」。這裡的 Agent 不是一般的 AI 對話，而是你交代一個目標，它自己拆解任務、決定用什麼工具、跑完整個流程再回報給你。重點是：這一切跑在本機，不需要傳資料到雲端。對企業來說，這代表資料安全性更高，長期也能省下雲端訂閱費用。
 
-* **💡 關鍵點 C：實際產品秋天出貨** 第一波合作品牌包括 Dell、ASUS、Lenovo、HP、Microsoft，預計推出超過 30 款筆電、10 款以上桌機。外界估計定價對標同等 128GB 記憶體的 MacBook Pro，大概落在 5,099 美元（約新台幣 16 萬元）上下的高端區間，秋天開始出貨。
+- **💡 關鍵點 C：實際產品秋天出貨** 第一波合作品牌包括 Dell、ASUS、Lenovo、HP、Microsoft，預計推出超過 30 款筆電、10 款以上桌機。外界估計定價對標同等 128GB 記憶體的 MacBook Pro，大概落在 5,099 美元（約新台幣 16 萬元）上下的高端區間，秋天開始出貨。
 
 <hr />
 
@@ -63,4 +60,4 @@ RTX Spark 的核心概念，就是把本來只存在於大型資料中心的 AI 
 
 <hr />
 
-*對了，也歡迎訂閱我的 YouTube 頻道 [Vincent Game Channel](https://www.youtube.com/@VincentGame) 👾*
+_對了，也歡迎訂閱我的 YouTube 頻道 [Vincent Game Channel](https://www.youtube.com/@VincentGame) 👾_
