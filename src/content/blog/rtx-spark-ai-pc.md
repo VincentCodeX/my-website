@@ -3,12 +3,26 @@ title: "黃仁勳說你的電腦快變成你的員工了？RTX Spark 到底在�
 description: "NVIDIA 在 Computex 2026 發表了 RTX Spark，宣稱要把資料中心等級的 AI 算力塞進筆電裡。這篇幫你搞懂它是什麼、為什麼這次好像不只是說說而已。"
 pubDate: "2026-06-05"
 tags: ["AI", "NVIDIA"]
+heroImage: "/images/rtx-spark-ai-pc-hero.webp"
 ---
-
 > 🎯 **這篇文章想分享給：**
 > 如果你最近也被「AI PC」這個詞搞得一頭霧水，不知道它跟你現在的電腦到底差在哪、值不值得關注，這篇就是幫你理清楚的。
 
 <hr />
+
+
+<div style="text-align:center;">
+  <img
+    src="/images/rtx-spark-ai-pc-hero.webp"
+    style="
+      width: 100%;
+      max-width: 450px;
+      height: auto;
+      border-radius: 12px;
+    "
+  />
+</div>
+
 
 ## 🪐 1. 出發點
 
