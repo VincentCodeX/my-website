@@ -174,6 +174,30 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
     border-color: var(--color-accent-pink);
   }
 
+  .post-content :global(.btn) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 0.75rem;
+    border: none;
+    transition: all 0.2s ease;
+  }
+
+  .post-content :global(.btn-primary) {
+    background: var(--color-primary);
+    color: white;
+    box-shadow: 0 12px 30px rgba(59, 130, 246, 0.2);
+  }
+
+  .post-content :global(.btn-primary:hover) {
+    background: #2563EB;
+  }
+
   .post-content :global(code) {
     background: rgba(168, 85, 247, 0.1);
     padding: 0.2rem 0.4rem;
