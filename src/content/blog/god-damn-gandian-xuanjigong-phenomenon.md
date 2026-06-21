@@ -84,7 +84,7 @@ heroImage: "/images/gandian-01.webp"
     href="https://www.youtube.com/@VincentGame"
     target="_blank"
     rel="noopener"
-    class="btn btn-primary"
+    class="btn btn-secondary"
   >
     對了，也歡迎訂閱我的 YouTube 頻道 Vincent Game Channel 👾
   </a>

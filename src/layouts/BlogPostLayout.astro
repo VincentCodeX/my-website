@@ -188,14 +188,41 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
     transition: all 0.2s ease;
   }
 
+  .post-content :global(.btn) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: auto;
+    min-width: 0;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 0.75rem;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+
   .post-content :global(.btn-primary) {
     background: var(--color-primary);
     color: white;
-    box-shadow: 0 12px 30px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 8px 18px rgba(59, 130, 246, 0.18);
   }
 
   .post-content :global(.btn-primary:hover) {
     background: #2563EB;
+  }
+
+  .post-content :global(.btn-secondary) {
+    background: rgba(59, 130, 246, 0.08);
+    color: var(--color-primary);
+    border-color: rgba(59, 130, 246, 0.32);
+    box-shadow: none;
+  }
+
+  .post-content :global(.btn-secondary:hover) {
+    background: rgba(59, 130, 246, 0.14);
   }
 
   .post-content :global(code) {
