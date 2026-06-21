@@ -11,9 +11,11 @@ heroImage: "/images/gandian-01.webp"
 <div style="text-align:center;">
   <img
     src="/images/gandian-01.webp"
+    width="800"
+    height="422"
     style="
       width: 100%;
-      max-width: 450px;
+      max-width: 800px;
       height: auto;
       border-radius: 12px;
     "
@@ -29,9 +31,11 @@ heroImage: "/images/gandian-01.webp"
 <div style="text-align:center;">
   <img
     src="/images/gandian-02.webp"
+    width="800"
+    height="422"
     style="
       width: 100%;
-      max-width: 450px;
+      max-width: 800px;
       height: auto;
       border-radius: 12px;
     "
@@ -49,9 +53,11 @@ heroImage: "/images/gandian-01.webp"
 <div style="text-align:center;">
   <img
     src="/images/gandian-03.webp"
+    width="800"
+    height="422"
     style="
       width: 100%;
-      max-width: 450px;
+      max-width: 800px;
       height: auto;
       border-radius: 12px;
     "
@@ -73,8 +79,9 @@ heroImage: "/images/gandian-01.webp"
 
 <hr />
 
-
-_對了，也歡迎訂閱我的 YouTube 頻道 [Vincent Game Channel](https://www.youtube.com/@VincentGame) 👾_
+<p style="text-align:center; margin: 1.5rem 0;">
+  _對了，也歡迎訂閱我的 YouTube 頻道 [Vincent Game Channel](https://www.youtube.com/@VincentGame) 👾_
+</p>
 
 <hr />
 
