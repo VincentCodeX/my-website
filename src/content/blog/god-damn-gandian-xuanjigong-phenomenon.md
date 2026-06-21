@@ -77,8 +77,6 @@ heroImage: "/images/gandian-01.webp"
 
 💬 **你怎麼看？** 你也是先在社群上看到「尬電」才知道這件事的嗎？還是你身邊真的有人在討論玄濟宮？歡迎留言聊聊！
 
-<hr />
-
 <p>
   <a
     href="https://www.youtube.com/@VincentGame"
