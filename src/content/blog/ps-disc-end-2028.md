@@ -7,12 +7,15 @@ heroImage: "/images/ps-disc-end-01.webp"
 ---
 
 <div style="
-  background-color: #0154bb;
-  color: #ffffff;
+  background-color: #633b06;
+  color: #ffffffba;
+  text-align: center;
+  font-family: 'Noto Sans TC', sans-serif;
   border-radius: 12px;
   padding: 16px 20px;
   margin: 20px 0;
 ">
+<style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&display=swap');</style>
 「誰賺誰賠」產業重新洗牌——而且輸最慘的那群人，可能連自己都還沒意識到
 </div>
 
