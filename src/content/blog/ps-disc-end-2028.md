@@ -8,6 +8,7 @@ heroImage: "/images/ps-disc-end-01.webp"
 
 <div style="
   background-color: #0154bb;
+  color: #ffffff;
   border-radius: 12px;
   padding: 16px 20px;
   margin: 20px 0;
