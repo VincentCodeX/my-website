@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文森遊戲 // 影像終端</title>
+    <title>文森遊戲 // 影像終端 2027</title>
     <meta name="description" content="文森遊戲 YouTube 頻道 — 最硬核的遊戲攻略與 AI 工具實測。搜尋 @VincentGame 立即訂閱。">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%2305070c%22/><polygon points=%2255,10 20,56 48,56 42,90 80,44 52,44%22 fill=%22%23FCEE0A%22/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 <!-- GA4 START -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2ZBJD56F3M"></script>
 <script>
@@ -21,489 +23,1242 @@
 <!-- GA4 END -->
     <style>
         :root {
-            --cy: #FCEE0A;
-            --cb: #00F0FF;
-            --cr: #FF003C;
-            --black: #050505;
-            --gray: #111111;
-            --light: #D0D0D0;
+            --cy: #FCEE0A;       /* 賽博黃 */
+            --cb: #00F0FF;       /* 全息青 */
+            --cr: #FF003C;       /* 警戒紅 */
+            --cg: #00FF85;       /* 終端綠 */
+            --bg-0: #03050a;     /* 深淵底色 */
+            --bg-1: #080c16;     /* 面板底色 */
+            --bg-2: #0f1626;     /* 卡片層次 */
+            --line: rgba(0, 240, 255, 0.18);
+            --line-y: rgba(252, 238, 10, 0.28);
+            --text: #E6EDF7;
+            --muted: #8B9BB4;
+            --font-display: 'Orbitron', 'Noto Sans TC', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-body: 'Noto Sans TC', 'Rajdhani', sans-serif;
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+            background: var(--bg-0);
+            color-scheme: dark;
+        }
 
         body {
-            background-color: var(--black);
-            color: white;
-            font-family: 'Rajdhani', sans-serif;
-            cursor: none;
+            background-color: var(--bg-0);
+            color: var(--text);
+            font-family: var(--font-body);
             overflow-x: hidden;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* 捲軸 */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--black); }
-        ::-webkit-scrollbar-thumb { background: var(--cy); }
+        body.gate-locked {
+            overflow: hidden;
+        }
 
-        /* CRT 掃描線 */
+        /* 僅在滑鼠等精細指標裝置隱藏預設游標 */
+        @media (pointer: fine) {
+            body { cursor: none; }
+            a, button, .video-card, [role="button"] { cursor: none; }
+        }
+
+        /* 捲軸客製化 */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-0); }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--cb), var(--cy));
+        }
+
+        /* 全域微妙掃描線 + 暗角濾鏡（不干擾閱讀） */
         body::before {
             content: "";
             position: fixed;
             inset: 0;
-            background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.22) 50%),
-                        linear-gradient(90deg, rgba(255,0,0,0.04), rgba(0,255,0,0.015), rgba(0,0,255,0.04));
-            background-size: 100% 2px, 3px 100%;
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 0, 0, 0) 0px,
+                    rgba(0, 0, 0, 0) 2px,
+                    rgba(0, 0, 0, 0.14) 3px
+                ),
+                radial-gradient(circle at center, transparent 58%, rgba(2, 4, 10, 0.65) 100%);
             pointer-events: none;
-            z-index: 9998;
+            z-index: 9000;
         }
 
-        /* 自訂游標 */
-        .cursor {
+        /* 鍵盤焦點無障礙光環 */
+        :focus-visible {
+            outline: 2px solid var(--cb);
+            outline-offset: 3px;
+        }
+
+        /* ══════════════════════════════════════════════
+           自訂戰術準星游標（僅桌面精細指標顯示）
+        ══════════════════════════════════════════════ */
+        .cursor-ring,
+        .cursor-dot {
+            display: none;
             position: fixed;
-            width: 22px; height: 22px;
-            border: 2px solid var(--cy);
+            top: 0;
+            left: 0;
             pointer-events: none;
             z-index: 99999;
             transform: translate(-50%, -50%);
-            transition: width .15s, height .15s, border-color .15s, border-radius .15s;
-            mix-blend-mode: difference;
-        }
-        .cursor.hover {
-            width: 42px; height: 42px;
-            border-color: var(--cb);
-            border-radius: 50%;
-            background: rgba(252,238,10,0.1);
         }
 
-        /* ── BOOT SCREEN ── */
-        #boot {
+        @media (pointer: fine) {
+            .cursor-ring, .cursor-dot { display: block; }
+        }
+
+        .cursor-ring {
+            width: 32px;
+            height: 32px;
+            border: 1.5px solid var(--cy);
+            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+            transition: width .18s ease, height .18s ease, border-color .18s ease, background .18s ease, transform .08s linear;
+            box-shadow: 0 0 12px rgba(252, 238, 10, 0.25);
+        }
+
+        .cursor-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--cb);
+            box-shadow: 0 0 8px var(--cb);
+        }
+
+        .cursor-ring.hover {
+            width: 48px;
+            height: 48px;
+            border-color: var(--cb);
+            background: rgba(0, 240, 255, 0.08);
+            box-shadow: 0 0 18px rgba(0, 240, 255, 0.45);
+        }
+
+        .cursor-ring.active {
+            width: 24px;
+            height: 24px;
+            border-color: var(--cr);
+        }
+
+        /* ══════════════════════════════════════════════
+           2027 裝甲氣閘門進門轉場（AIRLOCK BOOT GATE）
+        ══════════════════════════════════════════════ */
+        #boot-gate {
             position: fixed;
             inset: 0;
-            background: var(--black);
-            z-index: 10000;
+            z-index: 20000;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: opacity .6s ease;
+            pointer-events: auto;
+            overflow: hidden;
         }
-        #boot h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(1.8rem, 5vw, 3rem);
-            color: var(--cb);
-            letter-spacing: .15em;
-            margin-bottom: 2rem;
+
+        #boot-gate.done {
+            display: none;
+            pointer-events: none;
         }
-        #boot-log {
-            font-family: 'Orbitron', sans-serif;
-            font-size: .75rem;
+
+        /* 左右雙開裝甲門板 */
+        .gate-door {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50.5%;
+            background:
+                linear-gradient(135deg, rgba(0, 240, 255, 0.04) 0%, transparent 45%),
+                repeating-linear-gradient(
+                    -45deg,
+                    rgba(255, 255, 255, 0.014) 0px,
+                    rgba(255, 255, 255, 0.014) 2px,
+                    transparent 2px,
+                    transparent 12px
+                ),
+                linear-gradient(180deg, #060912 0%, #0b101d 50%, #05070e 100%);
+            transition: transform 0.95s cubic-bezier(0.77, 0, 0.175, 1);
+            will-change: transform;
+        }
+
+        .gate-door.left {
+            left: 0;
+            border-right: 2px solid rgba(0, 240, 255, 0.45);
+            box-shadow: inset -24px 0 60px rgba(0, 0, 0, 0.8), 4px 0 28px rgba(0, 240, 255, 0.2);
+        }
+
+        .gate-door.right {
+            right: 0;
+            border-left: 2px solid rgba(252, 238, 10, 0.45);
+            box-shadow: inset 24px 0 60px rgba(0, 0, 0, 0.8), -4px 0 28px rgba(252, 238, 10, 0.15);
+        }
+
+        /* 裝甲門板上的警示斜紋與導管裝飾 */
+        .gate-door::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: repeating-linear-gradient(
+                -55deg,
+                var(--cy) 0px,
+                var(--cy) 14px,
+                #0a0d14 14px,
+                #0a0d14 28px
+            );
+            opacity: 0.75;
+        }
+
+        .gate-door::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--cb), transparent);
+            opacity: 0.5;
+        }
+
+        .gate-door-meta {
+            position: absolute;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.2em;
+            color: rgba(139, 155, 180, 0.55);
+            user-select: none;
+        }
+        .gate-door.left .gate-door-meta { top: 2rem; left: 2rem; }
+        .gate-door.right .gate-door-meta { top: 2rem; right: 2rem; text-align: right; }
+
+        /* 門板中央的水平雷射掃描線 */
+        .gate-scanline {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cb), var(--cy), var(--cb), transparent);
+            box-shadow: 0 0 18px var(--cb), 0 0 36px rgba(0, 240, 255, 0.5);
+            z-index: 3;
+            animation: gateScan 1.6s ease-in-out infinite;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        @keyframes gateScan {
+            0%   { top: 8%; opacity: 0.2; }
+            50%  { top: 92%; opacity: 1; }
+            100% { top: 8%; opacity: 0.2; }
+        }
+
+        /* 中央全息驗證鎖芯 HUD */
+        .gate-core {
+            position: relative;
+            z-index: 5;
+            width: min(440px, 88vw);
+            padding: 2rem 1.8rem;
+            background: rgba(6, 10, 20, 0.88);
+            border: 1px solid rgba(0, 240, 255, 0.35);
+            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.14), inset 0 0 30px rgba(0, 240, 255, 0.05);
+            text-align: center;
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+        }
+
+        /* 旋轉全息鎖環 */
+        .gate-reticle {
+            position: relative;
+            width: 108px;
+            height: 108px;
+            margin: 0 auto 1.25rem;
+            display: grid;
+            place-items: center;
+        }
+
+        .gate-reticle svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ring-outer {
+            animation: spinCW 8s linear infinite;
+            transform-origin: center;
+        }
+        .ring-inner {
+            animation: spinCCW 4.5s linear infinite;
+            transform-origin: center;
+        }
+
+        @keyframes spinCW { to { transform: rotate(360deg); } }
+        @keyframes spinCCW { to { transform: rotate(-360deg); } }
+
+        .gate-pct {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 900;
             color: var(--cy);
-            width: min(360px, 80vw);
-            min-height: 7rem;
-            line-height: 1.8;
+            letter-spacing: 0.08em;
+            text-shadow: 0 0 14px rgba(252, 238, 10, 0.55);
         }
-        #boot-bar-wrap {
-            width: min(360px, 80vw);
-            height: 3px;
-            background: #222;
-            margin-top: 1rem;
+
+        .gate-title {
+            font-family: var(--font-display);
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            color: var(--cb);
+            margin-bottom: 0.35rem;
         }
-        #boot-bar {
+
+        .gate-status-badge {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.2em;
+            padding: 0.2rem 0.65rem;
+            border: 1px solid rgba(252, 238, 10, 0.4);
+            color: var(--cy);
+            background: rgba(252, 238, 10, 0.08);
+            margin-bottom: 1.1rem;
+            transition: all 0.25s ease;
+        }
+
+        .gate-log {
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            text-align: left;
+            color: #A9C2D9;
+            background: rgba(2, 5, 12, 0.85);
+            border: 1px solid rgba(0, 240, 255, 0.16);
+            padding: 0.85rem 1rem;
+            min-height: 6.4rem;
+            line-height: 1.75;
+            margin-bottom: 1rem;
+        }
+
+        .gate-log .ok { color: var(--cg); }
+        .gate-log .hi { color: var(--cy); }
+
+        .gate-progress-track {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gate-progress-fill {
             height: 100%;
             width: 0%;
-            background: var(--cy);
-            transition: width 2s ease;
-            box-shadow: 0 0 8px var(--cy);
+            background: linear-gradient(90deg, var(--cb), var(--cy));
+            box-shadow: 0 0 14px var(--cb);
+            transition: width 0.22s ease-out;
         }
 
-        /* ── NAV ── */
-        nav {
-            position: fixed;
-            top: 0; width: 100%;
-            z-index: 500;
-            border-bottom: 1px solid rgba(252,238,10,.25);
-            background: rgba(5,5,5,.85);
-            backdrop-filter: blur(12px);
-            padding: .9rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .gate-skip {
+            position: absolute;
+            right: 1.5rem;
+            bottom: 1.5rem;
+            z-index: 10;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            color: var(--muted);
+            background: rgba(8, 12, 22, 0.85);
+            border: 1px solid rgba(139, 155, 180, 0.35);
+            padding: 0.5rem 1rem;
+            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, background 0.2s;
         }
+        .gate-skip:hover {
+            color: var(--cy);
+            border-color: var(--cy);
+            background: rgba(252, 238, 10, 0.08);
+        }
+
+        /* 解鎖瞬間狀態 */
+        #boot-gate.granted .gate-status-badge {
+            color: var(--bg-0);
+            background: var(--cg);
+            border-color: var(--cg);
+            box-shadow: 0 0 20px rgba(0, 255, 133, 0.65);
+        }
+
+        #boot-gate.granted .gate-pct {
+            color: var(--cg);
+            text-shadow: 0 0 16px rgba(0, 255, 133, 0.7);
+        }
+
+        /* 裝甲門正式向左右敞開 */
+        #boot-gate.opening .gate-core {
+            opacity: 0;
+            transform: scale(1.16);
+        }
+        #boot-gate.opening .gate-scanline,
+        #boot-gate.opening .gate-skip {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #boot-gate.opening .gate-door.left {
+            transform: translateX(-105%);
+        }
+        #boot-gate.opening .gate-door.right {
+            transform: translateX(105%);
+        }
+
+        /* ══════════════════════════════════════════════
+           浮動戰術導覽列（FLOATING HUD NAVBAR）
+        ══════════════════════════════════════════════ */
+        .nav-shell {
+            position: fixed;
+            top: 0.9rem;
+            left: 1rem;
+            right: 1rem;
+            z-index: 5000;
+            max-width: 1220px;
+            margin: 0 auto;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.75rem 1.35rem;
+            background: rgba(6, 10, 20, 0.78);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
         .nav-logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-family: var(--font-display);
+            font-size: 0.92rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
             color: var(--cy);
             text-decoration: none;
-            letter-spacing: .08em;
-            transition: color .2s;
-            display: flex;
-            align-items: center;
-            gap: .5rem;
+            transition: color 0.2s ease;
         }
         .nav-logo:hover { color: var(--cb); }
-        .nav-logo .arrow { font-size: .85rem; opacity: .7; }
+        .nav-logo svg { width: 16px; height: 16px; flex-shrink: 0; }
+
         .nav-links {
             display: flex;
-            gap: 2rem;
+            align-items: center;
+            gap: 1.75rem;
             list-style: none;
         }
-@media (max-width: 600px) {
-        .nav-links { display: none; }
-        }
-        .nav-links a {
-            font-family: 'Orbitron', sans-serif;
-            font-size: .7rem;
-            color: var(--light);
-            text-decoration: none;
-            letter-spacing: .1em;
-            transition: color .2s;
-        }
-        .nav-links a:hover { color: var(--cy); }
 
-        /* ── HERO ── */
+        .nav-links a {
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: 0.1em;
+            position: relative;
+            padding: 0.25rem 0;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0%;
+            height: 2px;
+            background: var(--cy);
+            box-shadow: 0 0 8px var(--cy);
+            transition: width 0.22s ease;
+        }
+
+        .nav-links a:hover { color: var(--cy); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+        }
+
+        .sys-clock {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--cb);
+            padding: 0.3rem 0.65rem;
+            background: rgba(0, 240, 255, 0.07);
+            border: 1px solid rgba(0, 240, 255, 0.22);
+        }
+
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--cg);
+            box-shadow: 0 0 8px var(--cg);
+            animation: pulseDot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.35; transform: scale(0.8); }
+        }
+
+        .nav-cta-mini {
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: var(--bg-0);
+            background: var(--cy);
+            padding: 0.48rem 0.95rem;
+            text-decoration: none;
+            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+            transition: background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .nav-cta-mini:hover {
+            background: var(--cb);
+            box-shadow: 0 0 16px rgba(0, 240, 255, 0.55);
+        }
+
+        /* 手機版選單按鈕 */
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: 1px solid rgba(0, 240, 255, 0.35);
+            color: var(--cb);
+            width: 38px;
+            height: 38px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .mobile-drawer {
+            display: none;
+            margin-top: 0.5rem;
+            background: rgba(6, 10, 20, 0.95);
+            border: 1px solid rgba(0, 240, 255, 0.28);
+            backdrop-filter: blur(18px);
+            padding: 1rem 1.25rem;
+            flex-direction: column;
+            gap: 0.85rem;
+            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+        }
+
+        .mobile-drawer.open { display: flex; }
+
+        .mobile-drawer a {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.45rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .mobile-drawer a:last-child { border-bottom: none; color: var(--cy); font-weight: 700; }
+
+        @media (max-width: 860px) {
+            .nav-links, .sys-clock { display: none; }
+            .menu-toggle { display: inline-flex; }
+        }
+
+        /* ══════════════════════════════════════════════
+           HERO 主視覺（3D 賽博視界 + 戰術觀景窗 HUD）
+        ══════════════════════════════════════════════ */
         #hero {
             min-height: 100vh;
+            min-height: 100svh;
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
-            overflow: hidden;
-            padding: 6rem 2rem 4rem;
+            padding: 7.5rem 1.5rem 4.5rem;
             text-align: center;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse 80% 55% at 50% 35%, rgba(0, 240, 255, 0.11), transparent 70%),
+                radial-gradient(ellipse 60% 45% at 50% 85%, rgba(252, 238, 10, 0.07), transparent 70%),
+                var(--bg-0);
         }
+
         #canvas-wrap {
             position: absolute;
             inset: 0;
             z-index: 0;
-            opacity: .45;
+            opacity: 0.56;
             pointer-events: none;
         }
-        .hero-top {
-            font-family: 'Orbitron', sans-serif;
-            font-size: .75rem;
-            color: var(--cb);
-            letter-spacing: .3em;
-            margin-bottom: 1.5rem;
-            position: relative; z-index: 1;
+
+        /* 角落戰術觀景窗 HUD */
+        .hud-corner {
+            position: absolute;
+            font-family: var(--font-mono);
+            font-size: 0.66rem;
+            letter-spacing: 0.18em;
+            color: rgba(0, 240, 255, 0.65);
+            z-index: 2;
+            pointer-events: none;
+            user-select: none;
         }
+        .hud-tl {
+            top: 5.8rem; left: 2rem;
+            padding-left: 0.75rem;
+            border-left: 2px solid var(--cb);
+            text-align: left;
+        }
+        .hud-tr {
+            top: 5.8rem; right: 2rem;
+            padding-right: 0.75rem;
+            border-right: 2px solid var(--cy);
+            color: rgba(252, 238, 10, 0.7);
+            text-align: right;
+        }
+        .hud-bl {
+            bottom: 2rem; left: 2rem;
+            color: rgba(139, 155, 180, 0.6);
+            text-align: left;
+        }
+        .hud-br {
+            bottom: 2rem; right: 2rem;
+            color: rgba(255, 0, 60, 0.75);
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            .hud-corner { display: none; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 920px;
+            width: 100%;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            letter-spacing: 0.26em;
+            color: var(--cb);
+            padding: 0.4rem 1.05rem;
+            border: 1px solid rgba(0, 240, 255, 0.35);
+            background: rgba(0, 240, 255, 0.06);
+            margin-bottom: 1.6rem;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+        }
+
         .blink { animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
         .hero-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(3rem, 10vw, 8rem);
+            font-family: var(--font-display);
+            font-size: clamp(3.1rem, 10vw, 7.2rem);
             font-weight: 900;
-            line-height: 1;
-            color: white;
-            position: relative; z-index: 1;
-            text-shadow: 0 0 40px rgba(252,238,10,.3);
+            line-height: 1.04;
+            letter-spacing: 0.04em;
+            color: #FFFFFF;
+            text-shadow:
+                0 0 36px rgba(0, 240, 255, 0.25),
+                0 0 70px rgba(252, 238, 10, 0.16);
         }
-        /* Glitch */
-        .glitch { position: relative; display: inline-block; }
-        .glitch::before, .glitch::after {
+
+        /* 精修賽博故障字特效 */
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch::before,
+        .glitch::after {
             content: attr(data-text);
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
         .glitch::before {
             left: 3px;
             text-shadow: -3px 0 var(--cr);
-            animation: g1 2.8s infinite linear alternate-reverse;
+            animation: glitch1 3.2s infinite linear alternate-reverse;
         }
         .glitch::after {
             left: -3px;
             text-shadow: 3px 0 var(--cb);
-            animation: g2 3.4s infinite linear alternate-reverse;
+            animation: glitch2 3.8s infinite linear alternate-reverse;
         }
-        @keyframes g1 {
-            0%  { clip-path: inset(20% 0 75% 0); transform: translate(0); }
-            25% { clip-path: inset(55% 0 12% 0); transform: translate(-2px,2px); }
-            50% { clip-path: inset(35% 0 45% 0); transform: translate(2px,-2px); }
-            75% { clip-path: inset(75% 0 8%  0); transform: translate(-2px,0); }
-            100%{ clip-path: inset(10% 0 65% 0); transform: translate(0); }
+
+        @keyframes glitch1 {
+            0%, 82%  { clip-path: inset(0 0 100% 0); transform: translate(0); }
+            85%      { clip-path: inset(18% 0 64% 0); transform: translate(-2px, 1px); }
+            90%      { clip-path: inset(52% 0 22% 0); transform: translate(2px, -1px); }
+            95%      { clip-path: inset(76% 0 6% 0);  transform: translate(-1px, 0); }
+            100%     { clip-path: inset(0 0 100% 0); transform: translate(0); }
         }
-        @keyframes g2 {
-            0%  { clip-path: inset(8%  0 55% 0); transform: translate(0); }
-            25% { clip-path: inset(28% 0 22% 0); transform: translate(2px,-2px); }
-            50% { clip-path: inset(65% 0 12% 0); transform: translate(-2px,2px); }
-            75% { clip-path: inset(18% 0 48% 0); transform: translate(2px,0); }
-            100%{ clip-path: inset(5%  0 78% 0); transform: translate(0); }
+        @keyframes glitch2 {
+            0%, 78%  { clip-path: inset(0 0 100% 0); transform: translate(0); }
+            82%      { clip-path: inset(10% 0 72% 0); transform: translate(2px, -1px); }
+            88%      { clip-path: inset(44% 0 32% 0); transform: translate(-2px, 1px); }
+            94%      { clip-path: inset(68% 0 12% 0); transform: translate(1px, 0); }
+            100%     { clip-path: inset(0 0 100% 0); transform: translate(0); }
         }
 
         .hero-sub {
-            font-family: 'Orbitron', sans-serif;
-            font-size: .8rem;
+            font-family: var(--font-mono);
+            font-size: clamp(0.82rem, 1.8vw, 0.98rem);
             color: var(--cy);
-            letter-spacing: .25em;
-            margin-top: 1.2rem;
-            position: relative; z-index: 1;
-            opacity: .85;
-        }
-        .hero-btns {
-            display: flex;
-            gap: 1.2rem;
-            margin-top: 2.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            position: relative; z-index: 1;
+            letter-spacing: 0.22em;
+            margin-top: 1.35rem;
+            text-shadow: 0 0 14px rgba(252, 238, 10, 0.35);
         }
 
-        /* 切角按鈕 */
+        .hero-lead {
+            max-width: 600px;
+            margin: 1.1rem auto 0;
+            font-size: 1.05rem;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        /* 切角高能光束按鈕 */
+        .hero-btns {
+            display: flex;
+            gap: 1.15rem;
+            margin-top: 2.3rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         .btn {
-            font-family: 'Orbitron', sans-serif;
-            font-size: .8rem;
-            font-weight: 700;
-            letter-spacing: .1em;
-            padding: .85rem 2rem;
+            position: relative;
+            overflow: hidden;
+            font-family: var(--font-display);
+            font-size: 0.84rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            padding: 0.95rem 2.15rem;
             text-decoration: none;
             text-transform: uppercase;
-            clip-path: polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
-            transition: all .25s ease;
+            clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
             display: inline-flex;
             align-items: center;
-            gap: .5rem;
+            justify-content: center;
+            gap: 0.6rem;
+            transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
+
+        .btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+        .btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -130%;
+            width: 80%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+            transition: left 0.55s ease;
+        }
+        .btn:hover::after { left: 140%; }
+
         .btn-primary {
             background: var(--cy);
-            color: var(--black);
+            color: var(--bg-0);
+            box-shadow: 0 0 28px rgba(252, 238, 10, 0.32);
         }
         .btn-primary:hover {
             background: var(--cb);
-            transform: translate(-2px,-2px);
-            box-shadow: 4px 4px 0 var(--cy);
-        }
-        .btn-outline {
-            background: transparent;
-            color: var(--cy);
-            border: 1px solid var(--cy);
-        }
-        .btn-outline:hover {
-            background: rgba(252,238,10,.1);
-            transform: translate(-2px,-2px);
+            box-shadow: 0 0 34px rgba(0, 240, 255, 0.55);
         }
 
-        /* ── MARQUEE ── */
+        .btn-outline {
+            background: rgba(0, 240, 255, 0.06);
+            color: var(--cb);
+            border: 1px solid rgba(0, 240, 255, 0.55);
+        }
+        .btn-outline:hover {
+            background: rgba(0, 240, 255, 0.16);
+            color: #FFFFFF;
+            border-color: var(--cb);
+            box-shadow: 0 0 24px rgba(0, 240, 255, 0.3);
+        }
+
+        /* 捲動引導指標 */
+        .scroll-cue {
+            position: absolute;
+            bottom: 1.75rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-mono);
+            font-size: 0.64rem;
+            letter-spacing: 0.24em;
+            color: var(--muted);
+            text-decoration: none;
+        }
+        .scroll-cue-bar {
+            width: 2px;
+            height: 28px;
+            background: linear-gradient(180deg, var(--cb), transparent);
+            animation: cueDrop 1.8s ease-in-out infinite;
+        }
+        @keyframes cueDrop {
+            0%, 100% { opacity: 0.25; transform: scaleY(0.6); }
+            50% { opacity: 1; transform: scaleY(1); }
+        }
+
+        /* ══════════════════════════════════════════════
+           雙軌賽博跑馬燈（MARQUEE）
+        ══════════════════════════════════════════════ */
         .marquee-wrap {
             width: 100%;
             background: var(--cy);
-            color: var(--black);
-            font-family: 'Orbitron', sans-serif;
-            font-size: .75rem;
-            font-weight: 700;
-            padding: .55rem 0;
+            color: var(--bg-0);
+            font-family: var(--font-display);
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            padding: 0.65rem 0;
             overflow: hidden;
-            border-top: 2px solid var(--black);
-            border-bottom: 2px solid var(--black);
-            position: relative; z-index: 10;
+            border-top: 2px solid var(--bg-0);
+            border-bottom: 2px solid var(--bg-0);
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 0 30px rgba(252, 238, 10, 0.22);
         }
-        .marquee-inner {
-            display: inline-block;
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 24s linear infinite;
+        }
+
+        .marquee-wrap:hover .marquee-track {
+            animation-play-state: paused;
+        }
+
+        .marquee-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            margin: 0 2.2rem;
             white-space: nowrap;
-            animation: marquee 22s linear infinite;
         }
-        .marquee-inner span { margin: 0 2.5rem; }
+
+        .marquee-sep {
+            width: 6px;
+            height: 6px;
+            background: var(--bg-0);
+            transform: rotate(45deg);
+        }
+
         @keyframes marquee {
             0%   { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
 
-        /* ── SECTION COMMON ── */
-        section { padding: 5rem 2rem; }
-        .section-inner { max-width: 1100px; margin: 0 auto; }
-        .sec-label {
-            font-family: 'Orbitron', sans-serif;
-            font-size: .65rem;
-            letter-spacing: .3em;
-            color: var(--cb);
-            margin-bottom: .6rem;
-        }
-        .sec-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(1.4rem, 3vw, 2rem);
-            color: var(--cy);
-            margin-bottom: 2.5rem;
-            border-bottom: 1px solid #222;
-            padding-bottom: .8rem;
+        /* ══════════════════════════════════════════════
+           共用區塊與進場動畫
+        ══════════════════════════════════════════════ */
+        section.band {
+            padding: 6rem 1.5rem;
+            position: relative;
         }
 
-        /* ── ABOUT (頻道介紹) ── */
-        #about { background: rgba(17,17,17,.5); }
+        .section-inner {
+            max-width: 1160px;
+            margin: 0 auto;
+        }
+
+        .sec-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.75rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.16);
+            position: relative;
+        }
+
+        .sec-head::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 96px;
+            height: 2px;
+            background: var(--cy);
+            box-shadow: 0 0 12px var(--cy);
+        }
+
+        .sec-label {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.28em;
+            color: var(--cb);
+            margin-bottom: 0.45rem;
+        }
+
+        .sec-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.65rem, 3.4vw, 2.35rem);
+            font-weight: 900;
+            color: #FFFFFF;
+            letter-spacing: 0.06em;
+        }
+
+        .sec-title span { color: var(--cy); }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ══════════════════════════════════════════════
+           頻道介紹（ABOUT // 全息檔案面板）
+        ══════════════════════════════════════════════ */
+        #about {
+            background:
+                linear-gradient(180deg, rgba(8, 12, 22, 0.9) 0%, rgba(3, 5, 10, 0.96) 100%);
+        }
+
         .about-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 2.5rem;
+            align-items: stretch;
         }
-        @media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; } }
+
+        @media (max-width: 860px) {
+            .about-grid { grid-template-columns: 1fr; }
+        }
+
+        .dossier-panel {
+            position: relative;
+            background: rgba(11, 17, 30, 0.72);
+            border: 1px solid var(--line);
+            padding: 2.2rem 2rem;
+            clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .dossier-panel::before {
+            content: "DOSSIER // @VINCENTGAME";
+            position: absolute;
+            top: 0.85rem;
+            right: 1.6rem;
+            font-family: var(--font-mono);
+            font-size: 0.64rem;
+            letter-spacing: 0.2em;
+            color: rgba(0, 240, 255, 0.45);
+        }
+
         .about-text p {
-            font-size: 1.15rem;
-            line-height: 1.75;
-            color: var(--light);
-            margin-bottom: 1rem;
+            font-size: 1.06rem;
+            line-height: 1.9;
+            color: #C7D5E8;
+            margin-bottom: 1.05rem;
         }
-        .about-text p strong { color: white; }
+        .about-text p:last-child { margin-bottom: 0; }
+        .about-text strong {
+            color: var(--cy);
+            font-weight: 700;
+        }
+
+        .dossier-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            padding-top: 1.1rem;
+            border-top: 1px dashed rgba(0, 240, 255, 0.18);
+        }
+
+        .d-tag {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: var(--cb);
+            background: rgba(0, 240, 255, 0.08);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            padding: 0.28rem 0.7rem;
+        }
+
         .about-stats {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        .stat-box {
-            border: 1px solid #2a2a2a;
-            padding: 1.4rem 1rem;
-            text-align: center;
-            transition: border-color .2s, background .2s;
-            position: relative;
-        }
-        .stat-box:hover { border-color: var(--cy); background: rgba(252,238,10,.05); }
-        .stat-box::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 8px; height: 8px;
-            border-top: 2px solid var(--cy);
-            border-left: 2px solid var(--cy);
-            opacity: 0;
-            transition: opacity .2s;
-        }
-        .stat-box:hover::before { opacity: 1; }
-        .stat-num {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--cy);
-        }
-        .stat-label {
-            font-family: 'Orbitron', sans-serif;
-            font-size: .6rem;
-            color: var(--light);
-            letter-spacing: .15em;
-            margin-top: .3rem;
+            gap: 1.1rem;
         }
 
-        /* ── VIDEOS ── */
-        #videos { background: var(--black); }
+        .stat-box {
+            position: relative;
+            background: rgba(11, 17, 30, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.6rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+            transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .stat-box:hover {
+            border-color: var(--cy);
+            background: rgba(252, 238, 10, 0.05);
+            box-shadow: 0 0 24px rgba(252, 238, 10, 0.12);
+        }
+
+        .stat-top {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-code {
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.18em;
+            color: var(--muted);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            background: rgba(0, 240, 255, 0.07);
+            color: var(--cb);
+        }
+        .stat-box.accent-y .stat-icon { border-color: rgba(252, 238, 10, 0.4); background: rgba(252, 238, 10, 0.08); color: var(--cy); }
+        .stat-box.accent-r .stat-icon { border-color: rgba(255, 0, 60, 0.45); background: rgba(255, 0, 60, 0.08); color: var(--cr); }
+        .stat-box.accent-g .stat-icon { border-color: rgba(0, 255, 133, 0.4); background: rgba(0, 255, 133, 0.08); color: var(--cg); }
+
+        .stat-icon svg { width: 20px; height: 20px; }
+
+        .stat-label {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            letter-spacing: 0.08em;
+        }
+
+        .stat-sub {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 0.25rem;
+        }
+
+        /* ══════════════════════════════════════════════
+           精選影片（VIDEO FEED // 影像矩陣）
+        ══════════════════════════════════════════════ */
+        #videos {
+            background:
+                radial-gradient(circle at 80% 20%, rgba(0, 240, 255, 0.06), transparent 45%),
+                var(--bg-0);
+        }
+
+        .shuffle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            letter-spacing: 0.14em;
+            color: var(--cb);
+            background: rgba(0, 240, 255, 0.07);
+            border: 1px solid rgba(0, 240, 255, 0.35);
+            padding: 0.55rem 1.05rem;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+        .shuffle-btn:hover {
+            background: rgba(252, 238, 10, 0.12);
+            color: var(--cy);
+            border-color: var(--cy);
+        }
+        .shuffle-btn svg { width: 15px; height: 15px; }
+
         .videos-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        .video-card {
-            position: relative;
-            background: var(--gray);
-            border: 1px solid #2a2a2a;
-            overflow: visible;
-            transition: transform .3s ease, box-shadow .3s ease;
-            cursor: none;
-            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
-        }
-        /* 切角裝飾線 */
-        .video-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: transparent;
-            border: 1px solid #333;
-            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
-            pointer-events: none;
-            z-index: 3;
-            transition: border-color .3s;
-        }
-        /* 掃描線特效 */
-        .video-card::after {
-            content: '';
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 40%;
-            background: linear-gradient(to bottom, transparent, rgba(252,238,10,.04), transparent);
-            pointer-events: none;
-            z-index: 4;
-            transition: none;
-            opacity: 0;
-        }
-        .video-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 0 1px var(--cy),
-                        0 0 20px rgba(252,238,10,.15),
-                        0 8px 30px rgba(0,0,0,.6);
-        }
-        .video-card:hover::before { border-color: var(--cy); }
-        .video-card:hover::after {
-            opacity: 1;
-            animation: scanline 1.5s linear infinite;
-        }
-        @keyframes scanline {
-            0%   { top: -40%; }
-            100% { top: 110%; }
-        }
-        /* 左上角標籤 */
-        .card-tag {
-            position: absolute;
-            top: 0; left: 0;
-            background: var(--cy);
-            color: var(--black);
-            font-family: 'Orbitron', sans-serif;
-            font-size: .55rem;
-            font-weight: 700;
-            letter-spacing: .1em;
-            padding: .2rem .5rem;
-            z-index: 5;
-            clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.65rem;
         }
 
-        /* 縮圖狀態 */
+        @media (max-width: 400px) {
+            .videos-grid { grid-template-columns: 1fr; }
+        }
+
+        .video-card {
+            position: relative;
+            background: var(--bg-1);
+            border: 1px solid rgba(0, 240, 255, 0.18);
+            clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+            transition: border-color 0.28s ease, box-shadow 0.28s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 掃描光束 */
+        .video-card::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: 0;
+            width: 100%;
+            height: 36%;
+            background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.1), transparent);
+            pointer-events: none;
+            z-index: 4;
+            opacity: 0;
+        }
+
+        .video-card:hover {
+            border-color: var(--cy);
+            box-shadow:
+                0 0 0 1px rgba(252, 238, 10, 0.45),
+                0 12px 32px rgba(0, 0, 0, 0.65),
+                0 0 26px rgba(252, 238, 10, 0.15);
+        }
+
+        .video-card:hover::after {
+            opacity: 1;
+            animation: cardScan 1.6s linear infinite;
+        }
+
+        @keyframes cardScan {
+            0%   { top: -40%; }
+            100% { top: 115%; }
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: var(--cy);
+            color: var(--bg-0);
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            padding: 0.24rem 0.65rem;
+            z-index: 5;
+            clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+        }
+
+        .video-stage {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #04070e;
+            overflow: hidden;
+        }
+
         .thumb-wrap {
             position: relative;
             width: 100%;
-            aspect-ratio: 16/9;
-            overflow: hidden;
-            background: #0a0a0a;
-            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+            height: 100%;
         }
+
         .thumb-wrap img {
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform .35s ease, filter .35s ease;
-            filter: brightness(.85) saturate(.9);
+            filter: brightness(0.84) contrast(1.06);
+            transition: transform 0.45s ease, filter 0.35s ease;
         }
+
         .video-card:hover .thumb-wrap img {
             transform: scale(1.04);
-            filter: brightness(1) saturate(1.1);
+            filter: brightness(1) contrast(1.08);
         }
-        /* 播放按鈕覆蓋 */
+
         .play-overlay {
             position: absolute;
             inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(0,0,0,.35);
-            transition: background .25s;
+            background: linear-gradient(180deg, rgba(3, 5, 10, 0.15) 0%, rgba(3, 5, 10, 0.55) 100%);
+            transition: background 0.25s ease;
         }
-        .video-card:hover .play-overlay { background: rgba(0,0,0,.15); }
-        .play-icon {
-            width: 54px; height: 54px;
-            background: var(--cr);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px rgba(255,0,60,.6);
-            transition: transform .25s, box-shadow .25s;
-        }
-        .video-card:hover .play-icon {
-            transform: scale(1.12);
-            box-shadow: 0 0 30px rgba(255,0,60,.9);
-        }
-        .play-icon svg { width: 22px; height: 22px; fill: white; margin-left: 3px; }
 
-        /* iframe 狀態（點擊後替換縮圖） */
+        .video-card:hover .play-overlay {
+            background: rgba(3, 5, 10, 0.2);
+        }
+
+        .play-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: rgba(255, 0, 60, 0.92);
+            border: 2px solid rgba(255, 255, 255, 0.85);
+            display: grid;
+            place-items: center;
+            box-shadow: 0 0 24px rgba(255, 0, 60, 0.65);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+
+        .video-card:hover .play-icon {
+            transform: scale(1.1);
+            background: var(--cr);
+            box-shadow: 0 0 36px rgba(255, 0, 60, 0.95);
+        }
+
+        .play-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: #FFFFFF;
+            margin-left: 3px;
+        }
+
         .video-card iframe {
             position: absolute;
             inset: 0;
@@ -512,422 +1267,1086 @@
             border: none;
             display: none;
         }
+
         .video-card.playing iframe { display: block; }
         .video-card.playing .thumb-wrap { display: none; }
 
-        .video-info {
-            padding: .7rem 1rem;
-            font-family: 'Orbitron', sans-serif;
-            font-size: .6rem;
-            color: #444;
-            letter-spacing: .12em;
-            border-top: 1px solid #1e1e1e;
+        .video-meta {
+            padding: 0.95rem 1.1rem 1.05rem;
+            background: linear-gradient(180deg, #0b1120 0%, #070b14 100%);
+            border-top: 1px solid rgba(0, 240, 255, 0.14);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #0d0d0d;
-        }
-        .video-info .vi-dot {
-            width: 6px; height: 6px;
-            background: var(--cr);
-            border-radius: 50%;
-            box-shadow: 0 0 6px var(--cr);
-            animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: .3; }
-        }
-            letter-spacing: .1em;
+            flex-direction: column;
+            gap: 0.45rem;
+            flex: 1;
         }
 
-        /* ── SUBSCRIBE CTA ── */
+        .video-title {
+            font-size: 0.94rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.45;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 2.7em;
+        }
+
+        .video-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.64rem;
+            letter-spacing: 0.12em;
+            color: var(--muted);
+            padding-top: 0.4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .vi-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--cr);
+            box-shadow: 0 0 8px var(--cr);
+            animation: pulseDot 2s ease-in-out infinite;
+        }
+
+        /* ══════════════════════════════════════════════
+           訂閱號召（SUBSCRIBE CTA // 神經同步核心）
+        ══════════════════════════════════════════════ */
         #cta {
-            background: linear-gradient(135deg, #0d0d0d 0%, #130a00 100%);
-            border-top: 1px solid #1f1f1f;
-            border-bottom: 1px solid #1f1f1f;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(255, 0, 60, 0.1), transparent 62%),
+                linear-gradient(180deg, #070b14 0%, #0d0810 100%);
+            border-top: 1px solid rgba(0, 240, 255, 0.14);
+            border-bottom: 1px solid rgba(252, 238, 10, 0.18);
             text-align: center;
+            overflow: hidden;
         }
+
         .cta-box {
-            max-width: 680px;
+            max-width: 740px;
             margin: 0 auto;
+            padding: 3.2rem 2rem;
             position: relative;
+            background: rgba(8, 12, 22, 0.72);
+            border: 1px solid rgba(252, 238, 10, 0.3);
+            clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px);
+            box-shadow: 0 0 50px rgba(252, 238, 10, 0.08);
         }
+
         .cta-deco {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(5rem, 15vw, 11rem);
+            font-family: var(--font-display);
+            font-size: clamp(5rem, 15vw, 10.5rem);
             font-weight: 900;
             color: var(--cr);
-            opacity: .04;
+            opacity: 0.05;
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
             pointer-events: none;
             white-space: nowrap;
-            letter-spacing: -.05em;
-        }
-        .cta-label {
-            font-family: 'Orbitron', sans-serif;
-            font-size: .65rem;
-            letter-spacing: .35em;
-            color: var(--cr);
-            margin-bottom: 1rem;
-        }
-        .cta-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(1.3rem, 4vw, 2.2rem);
-            font-weight: 900;
-            color: white;
-            line-height: 1.3;
-            margin-bottom: 1rem;
-        }
-        .cta-title em { color: var(--cy); font-style: normal; }
-        .cta-desc {
-            font-size: 1.05rem;
-            color: var(--light);
-            margin-bottom: 2.2rem;
-            line-height: 1.7;
+            user-select: none;
         }
 
-        /* ── FOOTER ── */
+        .cta-label {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.32em;
+            color: var(--cr);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.45rem, 4vw, 2.35rem);
+            font-weight: 900;
+            color: #FFFFFF;
+            line-height: 1.38;
+            margin-bottom: 1.1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title em {
+            color: var(--cy);
+            font-style: normal;
+            text-shadow: 0 0 20px rgba(252, 238, 10, 0.35);
+        }
+
+        .cta-desc {
+            font-size: 1.04rem;
+            color: var(--muted);
+            margin-bottom: 2.2rem;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ══════════════════════════════════════════════
+           FOOTER 頁尾
+        ══════════════════════════════════════════════ */
         footer {
-            background: var(--black);
-            border-top: 1px solid #1a1a1a;
-            padding: 3rem 2rem;
+            background: var(--bg-0);
+            padding: 3.2rem 1.5rem 2.8rem;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
+
         footer::after {
-            content: '';
+            content: "";
             position: absolute;
-            bottom: 0; left: 0;
-            width: 100%; height: 2px;
-            background: linear-gradient(90deg, var(--cb), var(--cy), var(--cr));
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--cb), var(--cy), var(--cr), var(--cb));
         }
+
         .footer-logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
+            font-family: var(--font-display);
+            font-size: 1.25rem;
             font-weight: 900;
             color: var(--cy);
-            margin-bottom: .6rem;
+            letter-spacing: 0.12em;
+            margin-bottom: 0.55rem;
         }
+
         .footer-copy {
-            font-family: 'Orbitron', sans-serif;
-            font-size: .65rem;
-            color: #444;
-            letter-spacing: .15em;
-            margin-bottom: .5rem;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+            letter-spacing: 0.16em;
+            margin-bottom: 0.5rem;
         }
+
         .footer-quote {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: .95rem;
-            color: #333;
+            font-size: 0.94rem;
+            color: rgba(139, 155, 180, 0.68);
             font-style: italic;
-            letter-spacing: .05em;
         }
+
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin-top: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.65rem;
         }
-        .footer-links a {
-            font-family: 'Orbitron', sans-serif;
-            font-size: .65rem;
-            color: #444;
+
+        .footer-links a,
+        .footer-links button {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--muted);
             text-decoration: none;
-            letter-spacing: .1em;
-            transition: color .2s;
+            letter-spacing: 0.12em;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: color 0.2s ease;
         }
-        .footer-links a:hover { color: var(--cy); }
+
+        .footer-links a:hover,
+        .footer-links button:hover {
+            color: var(--cy);
+        }
+
+        /* ══════════════════════════════════════════════
+           尊重使用者的動態偏好（prefers-reduced-motion）
+        ══════════════════════════════════════════════ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
     </style>
 </head>
-<body>
+<body class="gate-locked">
 
-<!-- 游標 -->
-<div class="cursor" id="cursor"></div>
+<!-- 戰術準星游標（僅桌面裝置啟用） -->
+<div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
 
-<!-- ── BOOT SCREEN ── -->
-<div id="boot">
-    <h1>影像終端啟動中</h1>
-    <div id="boot-log"></div>
-    <div id="boot-bar-wrap"><div id="boot-bar"></div></div>
-</div>
-
-<!-- ── NAV ── -->
-<nav>
-    <a href="https://vincent2077.com/" class="nav-logo" id="nav-home">
-        <span class="arrow">◀</span> 回到實驗室
-    </a>
-    <ul class="nav-links">
-        <li><a href="#about">// 頻道介紹</a></li>
-        <li><a href="#videos">// 精選影片</a></li>
-        <li><a href="#cta">// 立即訂閱</a></li>
-    </ul>
-</nav>
-
-<!-- ── HERO ── -->
-<section id="hero">
-    <div id="canvas-wrap"></div>
-
-    <p class="hero-top"><span class="blink">_</span> 神經網路已連結</p>
-
-    <h1 class="hero-title">
-        <span class="glitch" data-text="文森遊戲">文森遊戲</span>
-    </h1>
-
-    <p class="hero-sub">// YT 搜尋 @VincentGame 立即連線</p>
-
-    <div class="hero-btns">
-        <a href="https://www.youtube.com/@VincentGame?sub_confirmation=1"
-           target="_blank" rel="noopener" class="btn btn-primary">
-            ⚡ 立即訂閱頻道
-        </a>
-        <a href="#videos" class="btn btn-outline">
-            ▶ 觀看影片
-        </a>
+<!-- ══════════════════════════════════════════════
+     2027 裝甲氣閘門進門動畫（AIRLOCK GATE）
+══════════════════════════════════════════════ -->
+<div id="boot-gate" role="dialog" aria-modal="true" aria-label="影像終端進門驗證動畫">
+    <div class="gate-door left">
+        <div class="gate-door-meta">SECTOR_07 // NIGHT_CITY_NODE<br>PROTOCOL: NEURAL_LINK_2027</div>
     </div>
-</section>
-
-<!-- ── MARQUEE ── -->
-<div class="marquee-wrap">
-    <div class="marquee-inner">
-        <span>// 最新攻略上線中</span>
-        <span>// 遊戲實況直播中</span>
-        <span>// AI 工具深度實測</span>
-        <span>// 夜城信號持續廣播</span>
-        <span>// 最新攻略上線中</span>
-        <span>// 遊戲實況直播中</span>
-        <span>// AI 工具深度實測</span>
-        <span>// 夜城信號持續廣播</span>
+    <div class="gate-door right">
+        <div class="gate-door-meta">AUTH_LAYER: LEVEL_MAX<br>TARGET: @VINCENTGAME</div>
     </div>
-</div>
+    <div class="gate-scanline" aria-hidden="true"></div>
 
-<!-- ── ABOUT ── -->
-<section id="about">
-    <div class="section-inner">
-        <p class="sec-label">// CHANNEL_INFO</p>
-        <h2 class="sec-title">頻道介紹</h2>
-        <div class="about-grid">
-            <div class="about-text">
-                <p>歡迎來到 <strong>文森遊戲</strong> 的數位廣播站。這裡是專為玩家打造的攻略資料庫與 AI 工具實驗場。</p>
-                <p>不廢話、不灌水。每支影片都是<strong>乾貨</strong>——從硬核遊戲攻略、深度系統解析，到最前沿的 AI 工具實測心得，全都在這裡。</p>
-                <p>訂閱頻道，跟著 Vincent 一起駭入這個數位時代的無限可能。</p>
-            </div>
-            <div class="about-stats">
-                <div class="stat-box">
-                    <div class="stat-num" style="color:var(--cy)">🎮</div>
-                    <div class="stat-label">遊戲攻略</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-num" style="color:var(--cb)">🧠</div>
-                    <div class="stat-label">AI 實測</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-num" style="color:var(--cr)">⚡</div>
-                    <div class="stat-label">深度解析</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-num" style="color:white">🔴</div>
-                    <div class="stat-label">持續廣播中</div>
-                </div>
-            </div>
+    <div class="gate-core">
+        <div class="gate-reticle" aria-hidden="true">
+            <svg viewBox="0 0 120 120" fill="none">
+                <circle class="ring-outer" cx="60" cy="60" r="52" stroke="#00F0FF" stroke-width="1.5" stroke-dasharray="18 8 4 8" opacity="0.85"/>
+                <circle class="ring-inner" cx="60" cy="60" r="39" stroke="#FCEE0A" stroke-width="2" stroke-dasharray="28 14" opacity="0.9"/>
+                <circle cx="60" cy="60" r="28" stroke="#00F0FF" stroke-width="0.8" opacity="0.35"/>
+            </svg>
+            <div class="gate-pct" id="gate-pct">00%</div>
+        </div>
+        <h2 class="gate-title">影像終端閘門解鎖中</h2>
+        <div class="gate-status-badge" id="gate-badge">VERIFYING NEURAL KEY</div>
+        <div class="gate-log" id="gate-log"></div>
+        <div class="gate-progress-track">
+            <div class="gate-progress-fill" id="gate-bar"></div>
         </div>
     </div>
-</section>
 
-<!-- ── VIDEOS ── -->
-<section id="videos">
-    <div class="section-inner">
-        <p class="sec-label">// VIDEO_FEED</p>
-        <h2 class="sec-title">精選影片</h2>
-        <div class="videos-grid" id="videos-grid">
-            <!-- 由 JS 動態生成 -->
-        </div>
-    </div>
-</section>
+    <button type="button" class="gate-skip" id="gate-skip">[ SKIP // 略過開門 ]</button>
+</div>
 
-<!-- ── SUBSCRIBE CTA ── -->
-<section id="cta">
-    <div class="section-inner">
-        <div class="cta-box">
-            <div class="cta-deco">SUB</div>
-            <p class="cta-label">// INITIATE_LINK</p>
-            <h2 class="cta-title">按下訂閱，<br>你就是下一個<em>成為主角的人</em></h2>
-            <p class="cta-desc">免費訂閱頻道，第一時間收到最新攻略與 AI 實測通知。夜城的傳說，從這裡開始。</p>
+<!-- ══════════════════════════════════════════════
+     浮動戰術導覽列
+══════════════════════════════════════════════ -->
+<header class="nav-shell">
+    <nav aria-label="主導覽列">
+        <a href="https://vincent2077.com/" class="nav-logo" id="nav-home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true">
+                <path d="M15 18l-6-6 6-6"/>
+            </svg>
+            <span>回到實驗室</span>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="#about">// 頻道介紹</a></li>
+            <li><a href="#videos">// 精選影片</a></li>
+            <li><a href="#cta">// 立即訂閱</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <div class="sys-clock" aria-label="系統連線狀態">
+                <span class="live-dot" aria-hidden="true"></span>
+                <span>ONLINE</span>
+                <span id="hud-clock">--:--:--</span>
+            </div>
             <a href="https://www.youtube.com/@VincentGame?sub_confirmation=1"
-               target="_blank" rel="noopener" class="btn btn-primary" style="font-size:1rem; padding:1.1rem 2.8rem;">
-                ▶ 前往 YouTube 頻道
+               target="_blank" rel="noopener" class="nav-cta-mini">
+                訂閱頻道
             </a>
+            <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="mobile-drawer" aria-label="切換選單">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 7h16M4 12h16M4 17h16"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <div class="mobile-drawer" id="mobile-drawer">
+        <a href="#about">// 頻道介紹</a>
+        <a href="#videos">// 精選影片</a>
+        <a href="#cta">// 立即訂閱</a>
+        <a href="https://vincent2077.com/">◀ 回到實驗室 主站</a>
+    </div>
+</header>
+
+<main>
+    <!-- ══════════════════════════════════════════════
+         HERO 主視覺
+    ══════════════════════════════════════════════ -->
+    <section id="hero">
+        <div id="canvas-wrap" aria-hidden="true"></div>
+
+        <div class="hud-corner hud-tl" aria-hidden="true">
+            SYS_VER // 2027.01<br>
+            UPLINK // STABLE
+        </div>
+        <div class="hud-corner hud-tr" aria-hidden="true">
+            CHANNEL // @VINCENTGAME<br>
+            SIGNAL // 4K HDR STREAM
+        </div>
+        <div class="hud-corner hud-bl" aria-hidden="true">
+            COORDS // 25.0330° N, 121.5654° E
+        </div>
+        <div class="hud-corner hud-br" aria-hidden="true">
+            ● REC // BROADCAST ACTIVE
+        </div>
+
+        <div class="hero-content">
+            <p class="hero-eyebrow">
+                <span class="blink">_</span>
+                <span>神經網路已連結 // 2027 影像終端</span>
+            </p>
+
+            <h1 class="hero-title">
+                <span class="glitch" data-text="文森遊戲">文森遊戲</span>
+            </h1>
+
+            <p class="hero-sub">// YT 搜尋 @VincentGame 立即連線</p>
+
+            <p class="hero-lead">
+                硬核遊戲攻略 深度系統解析 最前沿 AI 工具實測<br>
+                不廢話 不灌水 帶你直擊核心
+            </p>
+
+            <div class="hero-btns">
+                <a href="https://www.youtube.com/@VincentGame?sub_confirmation=1"
+                   target="_blank" rel="noopener" class="btn btn-primary">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/>
+                    </svg>
+                    <span>立即訂閱頻道</span>
+                </a>
+                <a href="#videos" class="btn btn-outline">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                    <span>觀看精選影片</span>
+                </a>
+            </div>
+        </div>
+
+        <a href="#about" class="scroll-cue" aria-label="向下捲動至頻道介紹">
+            <span>SCROLL</span>
+            <span class="scroll-cue-bar" aria-hidden="true"></span>
+        </a>
+    </section>
+
+    <!-- ══════════════════════════════════════════════
+         MARQUEE 霓虹跑馬燈
+    ══════════════════════════════════════════════ -->
+    <div class="marquee-wrap" aria-hidden="true">
+        <div class="marquee-track">
+            <span class="marquee-item"><span class="marquee-sep"></span>// 最新攻略上線中</span>
+            <span class="marquee-item"><span class="marquee-sep"></span>// 遊戲實況直播中</span>
+            <span class="marquee-item"><span class="marquee-sep"></span>// AI 工具深度實測</span>
+            <span class="marquee-item"><span class="marquee-sep"></span>// 夜城信號持續廣播</span>
+            <span class="marquee-item"><span class="marquee-sep"></span>// 2027 NEURAL BROADCAST</span>
+            <span class="marquee-item"><span class="marquee-sep"></span>// 最新攻略上線中</span>
+            <span class="marquee-item"><span class="marquee-sep"></span>// 遊戲實況直播中</span>
+            <span class="marquee-item"><span class="marquee-sep"></span>// AI 工具深度實測</span>
+            <span class="marquee-item"><span class="marquee-sep"></span>// 夜城信號持續廣播</span>
+            <span class="marquee-item"><span class="marquee-sep"></span>// 2027 NEURAL BROADCAST</span>
         </div>
     </div>
-</section>
 
-<!-- ── FOOTER ── -->
+    <!-- ══════════════════════════════════════════════
+         ABOUT 頻道介紹
+    ══════════════════════════════════════════════ -->
+    <section id="about" class="band">
+        <div class="section-inner">
+            <div class="sec-head reveal">
+                <div>
+                    <p class="sec-label">// CHANNEL_INFO // 01</p>
+                    <h2 class="sec-title">頻道<span>介紹</span></h2>
+                </div>
+            </div>
+
+            <div class="about-grid">
+                <div class="dossier-panel reveal">
+                    <div class="about-text">
+                        <p>歡迎來到 <strong>文森遊戲</strong> 的數位廣播站 這裡是專為玩家打造的攻略資料庫與 AI 工具實驗場</p>
+                        <p>不廢話 不灌水 每支影片都是<strong>高密度乾貨</strong> 從硬核遊戲攻略 深度系統解析 到最前沿的 AI 工具實測心得 全都在這裡完整解密</p>
+                        <p>訂閱頻道 跟著 Vincent 一起駭入 2027 這個數位時代的無限可能</p>
+                    </div>
+                    <div class="dossier-tags">
+                        <span class="d-tag">#硬核遊戲攻略</span>
+                        <span class="d-tag">#AI工具實測</span>
+                        <span class="d-tag">#系統深度解析</span>
+                        <span class="d-tag">#@VincentGame</span>
+                    </div>
+                </div>
+
+                <div class="about-stats reveal">
+                    <div class="stat-box accent-y">
+                        <div class="stat-top">
+                            <div class="stat-icon" aria-hidden="true">
+                                <!-- 遊戲手把 SVG -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="6" width="20" height="12" rx="4"/>
+                                    <path d="M6 12h4M8 10v4"/>
+                                    <circle cx="15.5" cy="11" r="0.9" fill="currentColor"/>
+                                    <circle cx="17.5" cy="13" r="0.9" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <span class="stat-code">MOD_01</span>
+                        </div>
+                        <div>
+                            <div class="stat-label">遊戲攻略</div>
+                            <p class="stat-sub">高難度通關與實戰機制拆解</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-box">
+                        <div class="stat-top">
+                            <div class="stat-icon" aria-hidden="true">
+                                <!-- AI 晶片 SVG -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="6" y="6" width="12" height="12" rx="1"/>
+                                    <rect x="9.5" y="9.5" width="5" height="5"/>
+                                    <path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>
+                                </svg>
+                            </div>
+                            <span class="stat-code">MOD_02</span>
+                        </div>
+                        <div>
+                            <div class="stat-label">AI 實測</div>
+                            <p class="stat-sub">最新生成式 AI 與效率工具評測</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-box accent-r">
+                        <div class="stat-top">
+                            <div class="stat-icon" aria-hidden="true">
+                                <!-- 閃電核心 SVG -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                                </svg>
+                            </div>
+                            <span class="stat-code">MOD_03</span>
+                        </div>
+                        <div>
+                            <div class="stat-label">深度解析</div>
+                            <p class="stat-sub">不灌水 直切重點的系統剖析</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-box accent-g">
+                        <div class="stat-top">
+                            <div class="stat-icon" aria-hidden="true">
+                                <!-- 訊號廣播 SVG -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="2.2" fill="currentColor"/>
+                                    <path d="M7.8 16.2a6 6 0 0 1 0-8.4M16.2 7.8a6 6 0 0 1 0 8.4"/>
+                                    <path d="M4.9 19.1a10 10 0 0 1 0-14.2M19.1 4.9a10 10 0 0 1 0 14.2"/>
+                                </svg>
+                            </div>
+                            <span class="stat-code">MOD_04</span>
+                        </div>
+                        <div>
+                            <div class="stat-label">持續廣播中</div>
+                            <p class="stat-sub">夜城信號穩定輸出不中斷</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════
+         VIDEOS 精選影片
+    ══════════════════════════════════════════════ -->
+    <section id="videos" class="band">
+        <div class="section-inner">
+            <div class="sec-head reveal">
+                <div>
+                    <p class="sec-label">// TOP_12_POPULAR // 02</p>
+                    <h2 class="sec-title">熱門<span>精選</span></h2>
+                </div>
+                <button type="button" class="shuffle-btn" id="shuffle-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="16 3 21 3 21 8"/>
+                        <line x1="4" y1="20" x2="21" y2="3"/>
+                        <polyline points="21 16 21 21 16 21"/>
+                        <line x1="15" y1="15" x2="21" y2="21"/>
+                        <line x1="4" y1="4" x2="9" y2="9"/>
+                    </svg>
+                    <span>重新洗牌排序</span>
+                </button>
+            </div>
+
+            <div class="videos-grid reveal" id="videos-grid">
+                <!-- 由 JS 動態生成 6 部精選影片 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════
+         CTA 訂閱號召
+    ══════════════════════════════════════════════ -->
+    <section id="cta" class="band">
+        <div class="section-inner">
+            <div class="cta-box reveal">
+                <div class="cta-deco" aria-hidden="true">SUB</div>
+                <p class="cta-label">// INITIATE_NEURAL_LINK // 03</p>
+                <h2 class="cta-title">按下訂閱<br>你就是下一個<em>成為主角的人</em></h2>
+                <p class="cta-desc">免費訂閱頻道 第一時間收到最新硬核攻略與 AI 工具實測通知<br>夜城的傳說 從這裡開始</p>
+                <a href="https://www.youtube.com/@VincentGame?sub_confirmation=1"
+                   target="_blank" rel="noopener" class="btn btn-primary" style="font-size:0.95rem; padding:1.1rem 2.75rem;">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/>
+                    </svg>
+                    <span>前往 YouTube 頻道</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER 頁尾
+══════════════════════════════════════════════ -->
 <footer>
     <p class="footer-logo">文森遊戲 // VINCENT_GAME</p>
-    <p class="footer-copy">© 2026 @VincentGame. ALL NEURAL CONNECTIONS ENCRYPTED.</p>
-    <p class="footer-quote">「按下訂閱，你就是下一個成為主角的人。」</p>
+    <p class="footer-copy">© 2026–2027 @VincentGame. ALL NEURAL CONNECTIONS ENCRYPTED.</p>
+    <p class="footer-quote">按下訂閱 你就是下一個成為主角的人</p>
     <div class="footer-links">
         <a href="https://vincent2077.com/">[ 回到實驗室 ]</a>
-        <a href="https://www.youtube.com/@VincentGame" target="_blank">[ YouTube 頻道 ]</a>
+        <a href="https://www.youtube.com/@VincentGame" target="_blank" rel="noopener">[ YouTube 頻道 ]</a>
         <a href="#hero">[ 回到頂部 ]</a>
+        <button type="button" id="replay-gate">[ 重播進門動畫 ]</button>
     </div>
 </footer>
 
 <script>
-// ── 游標 ──
-const cur = document.getElementById('cursor');
-document.addEventListener('mousemove', e => {
-    cur.style.left = e.clientX + 'px';
-    cur.style.top  = e.clientY + 'px';
-});
-document.querySelectorAll('a, button, .video-card').forEach(el => {
-    el.addEventListener('mouseenter', () => cur.classList.add('hover'));
-    el.addEventListener('mouseleave', () => cur.classList.remove('hover'));
-});
+(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ── BOOT SCREEN ──
-const bootEl   = document.getElementById('boot');
-const bootLog  = document.getElementById('boot-log');
-const bootBar  = document.getElementById('boot-bar');
-const msgs = [
-    '> 正在建立神經連結...',
-    '> 正在解碼影像資料庫...',
-    '> 正在突破防禦冰層...',
-    '> 歡迎來到文森遊戲頻道。'
-];
-let mi = 0;
-setTimeout(() => { bootBar.style.width = '100%'; }, 80);
-const bi = setInterval(() => {
-    if (mi < msgs.length) {
-        bootLog.innerHTML += msgs[mi] + '<br>';
-        mi++;
-    } else {
-        clearInterval(bi);
-        setTimeout(() => {
-            bootEl.style.opacity = '0';
-            setTimeout(() => bootEl.style.display = 'none', 600);
-        }, 500);
-    }
-}, 380);
+    // ── 1. 戰術準星游標（僅精細指標裝置） ──
+    const ring = document.getElementById('cursor-ring');
+    const dot = document.getElementById('cursor-dot');
+    if (window.matchMedia('(pointer: fine)').matches && ring && dot) {
+        let rx = window.innerWidth / 2, ry = window.innerHeight / 2;
+        let mx = rx, my = ry;
 
-// ── THREE.JS 背景 ──
-(function initThree() {
-    const wrap = document.getElementById('canvas-wrap');
-    const scene    = new THREE.Scene();
-    const camera   = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
-    camera.position.set(0, 8, 25);
-    camera.rotation.x = -0.2;
+        document.addEventListener('mousemove', (e) => {
+            mx = e.clientX;
+            my = e.clientY;
+            dot.style.left = mx + 'px';
+            dot.style.top = my + 'px';
+        }, { passive: true });
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(innerWidth, innerHeight);
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-    wrap.appendChild(renderer.domElement);
+        document.addEventListener('mousedown', () => ring.classList.add('active'));
+        document.addEventListener('mouseup', () => ring.classList.remove('active'));
 
-    // 網格地形
-    const geo = new THREE.PlaneGeometry(120, 80, 40, 30);
-    const pos = geo.getAttribute('position');
-    for (let i = 0; i < pos.count; i++) pos.setZ(i, Math.random() * 2);
-    const mat = new THREE.MeshBasicMaterial({ color: 0x00F0FF, wireframe: true, transparent: true, opacity: .35 });
-    const plane = new THREE.Mesh(geo, mat);
-    plane.rotation.x = -Math.PI / 2;
-    plane.position.y = -5;
-    scene.add(plane);
-
-    // 粒子
-    const pGeo = new THREE.BufferGeometry();
-    const arr  = new Float32Array(700 * 3);
-    for (let i = 0; i < arr.length; i++) arr[i] = (Math.random() - .5) * 100;
-    pGeo.setAttribute('position', new THREE.BufferAttribute(arr, 3));
-    const pMat  = new THREE.PointsMaterial({ size: .25, color: 0x00FF41, transparent: true, opacity: .7 });
-    const pts   = new THREE.Points(pGeo, pMat);
-    scene.add(pts);
-
-    let mx = 0, my = 0;
-    document.addEventListener('mousemove', e => {
-        mx = (e.clientX / innerWidth)  * 2 - 1;
-        my = -(e.clientY / innerHeight) * 2 + 1;
-    });
-
-    (function tick() {
-        requestAnimationFrame(tick);
-        plane.position.z += .05;
-        if (plane.position.z > 5) plane.position.z = 0;
-        pts.rotation.y -= .0004;
-        pts.rotation.x += .0002;
-        camera.position.x += (mx * 2 - camera.position.x) * .05;
-        camera.position.y += (my * 2 + 8 - camera.position.y) * .05;
-        camera.lookAt(scene.position);
-        renderer.render(scene, camera);
-    })();
-
-    window.addEventListener('resize', () => {
-        camera.aspect = innerWidth / innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(innerWidth, innerHeight);
-    });
-})();
-
-// ── 影片卡片（隨機顯示全部6部）──
-const ALL_VIDEOS = [
-    '4JLBiW4AOe8',
-    'moK0T1QSoRA',
-    'Oq-0ujxZf8E',
-    'TA25m9Oign0',
-    '3FIhvirtA7Y',
-    's31Yfqc3ouo'
-];
-
-function shuffle(arr) {
-    const a = [...arr];
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-}
-
-const grid = document.getElementById('videos-grid');
-shuffle(ALL_VIDEOS).forEach((id, idx) => {
-    const card = document.createElement('div');
-    card.className = 'video-card';
-
-    card.innerHTML = `
-        <div class="card-tag">VID_${String(idx+1).padStart(2,'0')}</div>
-        <div class="thumb-wrap">
-            <img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg"
-                 alt="影片縮圖 ${idx + 1}"
-                 loading="lazy">
-            <div class="play-overlay">
-                <div class="play-icon">
-                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-            </div>
-        </div>
-        <iframe src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <div class="video-info">
-            <span>CLICK TO PLAY // @VINCENTGAME</span>
-            <span class="vi-dot"></span>
-        </div>
-    `;
-
-    // 點擊載入影片
-    card.addEventListener('click', () => {
-        if (card.classList.contains('playing')) return;
-        // 暫停其他正在播放的卡片
-        document.querySelectorAll('.video-card.playing').forEach(c => {
-            c.classList.remove('playing');
-            c.querySelector('iframe').src = '';
+        // 使用事件委派，動態產生的卡片也能感應 hover
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('a, button, .video-card')) ring.classList.add('hover');
         });
-        card.classList.add('playing');
-        card.querySelector('iframe').src =
-            `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.closest('a, button, .video-card')) ring.classList.remove('hover');
+        });
+
+        (function followCursor() {
+            rx += (mx - rx) * 0.22;
+            ry += (my - ry) * 0.22;
+            ring.style.left = rx + 'px';
+            ring.style.top = ry + 'px';
+            requestAnimationFrame(followCursor);
+        })();
+    }
+
+    // ── 2. 即時 HUD 時鐘 ──
+    const clockEl = document.getElementById('hud-clock');
+    function updateClock() {
+        if (!clockEl) return;
+        const now = new Date();
+        clockEl.textContent = now.toTimeString().slice(0, 8);
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // ── 3. 手機版選單 ──
+    const menuBtn = document.getElementById('menu-toggle');
+    const drawer = document.getElementById('mobile-drawer');
+    if (menuBtn && drawer) {
+        menuBtn.addEventListener('click', () => {
+            const isOpen = drawer.classList.toggle('open');
+            menuBtn.setAttribute('aria-expanded', String(isOpen));
+        });
+        drawer.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                drawer.classList.remove('open');
+                menuBtn.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
+
+    // ── 4. 2027 裝甲氣閘門進門轉場（AIRLOCK BOOT GATE） ──
+    const gate = document.getElementById('boot-gate');
+    const gateLog = document.getElementById('gate-log');
+    const gateBar = document.getElementById('gate-bar');
+    const gatePct = document.getElementById('gate-pct');
+    const gateBadge = document.getElementById('gate-badge');
+    const skipBtn = document.getElementById('gate-skip');
+    const replayBtn = document.getElementById('replay-gate');
+
+    let gateTimers = [];
+
+    function clearGateTimers() {
+        gateTimers.forEach(t => clearTimeout(t));
+        gateTimers = [];
+    }
+
+    function openAirlockDoors(immediate = false) {
+        clearGateTimers();
+        if (immediate || prefersReducedMotion) {
+            gate.classList.add('done');
+            document.body.classList.remove('gate-locked');
+            return;
+        }
+        gate.classList.add('granted');
+        gateBadge.textContent = 'ACCESS GRANTED // 開門中';
+        gatePct.textContent = '100%';
+        gateBar.style.width = '100%';
+
+        gateTimers.push(setTimeout(() => {
+            gate.classList.add('opening');
+        }, 260));
+
+        gateTimers.push(setTimeout(() => {
+            gate.classList.add('done');
+            document.body.classList.remove('gate-locked');
+        }, 1250));
+    }
+
+    function runBootGate() {
+        clearGateTimers();
+        if (prefersReducedMotion) {
+            openAirlockDoors(true);
+            return;
+        }
+        document.body.classList.add('gate-locked');
+        gate.classList.remove('done', 'granted', 'opening');
+        gateLog.innerHTML = '';
+        gateBar.style.width = '0%';
+        gatePct.textContent = '00%';
+        gateBadge.textContent = 'VERIFYING NEURAL KEY';
+
+        const steps = [
+            { pct: 24, text: '&gt; 正在建立神經網路連線 <span class="ok">[OK]</span>' },
+            { pct: 52, text: '&gt; 正在解碼 2027 影像資料庫 <span class="ok">[OK]</span>' },
+            { pct: 81, text: '&gt; 突破夜城防禦冰層 // 驗證 <span class="hi">@VincentGame</span>' },
+            { pct: 100, text: '&gt; 氣閘門鎖定解除 <span class="ok">歡迎進入文森遊戲終端</span>' }
+        ];
+
+        steps.forEach((step, idx) => {
+            gateTimers.push(setTimeout(() => {
+                gateLog.innerHTML += step.text + '<br>';
+                gateBar.style.width = step.pct + '%';
+                gatePct.textContent = String(step.pct).padStart(2, '0') + '%';
+                if (idx === steps.length - 1) {
+                    gateTimers.push(setTimeout(() => openAirlockDoors(false), 320));
+                }
+            }, 220 + idx * 360));
+        });
+    }
+
+    skipBtn.addEventListener('click', () => openAirlockDoors(false));
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !gate.classList.contains('done')) {
+            openAirlockDoors(false);
+        }
+    });
+    if (replayBtn) {
+        replayBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            runBootGate();
+        });
+    }
+
+    runBootGate();
+
+    // ── 5. 捲動顯示動畫（IntersectionObserver） ──
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && !prefersReducedMotion) {
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        revealEls.forEach(el => io.observe(el));
+    } else {
+        revealEls.forEach(el => el.classList.add('visible'));
+    }
+
+    // ── 6. THREE.JS 2027 生命之流（FF7 Remake Lifestream 風格流水動畫） ──
+    window.addEventListener('load', () => {
+        if (typeof THREE === 'undefined' || prefersReducedMotion) return;
+        const wrap = document.getElementById('canvas-wrap');
+        if (!wrap) return;
+
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x03050a, 0.014);
+
+        const camera = new THREE.PerspectiveCamera(68, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 2.5, 30);
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        wrap.appendChild(renderer.domElement);
+
+        // 產生柔和發光粒子貼圖（魔晄／生命之流光點）
+        function createGlowTexture() {
+            const c = document.createElement('canvas');
+            c.width = 64;
+            c.height = 64;
+            const ctx = c.getContext('2d');
+            const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+            grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+            grad.addColorStop(0.25, 'rgba(255, 255, 255, 0.8)');
+            grad.addColorStop(0.55, 'rgba(255, 255, 255, 0.22)');
+            grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 64, 64);
+            return new THREE.CanvasTexture(c);
+        }
+        const glowTex = createGlowTexture();
+
+        // 產生絲帶柔和發光貼圖（邊緣羽化、中央明亮，模擬液態光流）
+        function createRibbonTexture() {
+            const c = document.createElement('canvas');
+            c.width = 256;
+            c.height = 64;
+            const ctx = c.getContext('2d');
+            const grad = ctx.createLinearGradient(0, 0, 0, 64);
+            grad.addColorStop(0, 'rgba(255, 255, 255, 0)');
+            grad.addColorStop(0.28, 'rgba(255, 255, 255, 0.28)');
+            grad.addColorStop(0.5, 'rgba(255, 255, 255, 0.92)');
+            grad.addColorStop(0.72, 'rgba(255, 255, 255, 0.28)');
+            grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 256, 64);
+            const tex = new THREE.CanvasTexture(c);
+            tex.wrapS = THREE.RepeatWrapping;
+            tex.wrapT = THREE.ClampToEdgeWrapping;
+            return tex;
+        }
+        const ribbonTex = createRibbonTexture();
+
+        // A. 多條蜿蜒交織的生命之流光帶（Lifestream Ribbons）
+        const streamGroup = new THREE.Group();
+        scene.add(streamGroup);
+
+        const ribbonConfigs = [
+            { color: 0x00F0FF, width: 2.8, yBase: -3.5, zBase: -4,  ampY: 3.4, ampZ: 5.0, freq: 0.065, speed: 0.95, phase: 0.0, opacity: 0.30 },
+            { color: 0x00FF85, width: 2.2, yBase: -1.5, zBase: -8,  ampY: 4.2, ampZ: 4.5, freq: 0.055, speed: 0.78, phase: 1.4, opacity: 0.24 },
+            { color: 0x00F0FF, width: 1.7, yBase:  1.8, zBase: -2,  ampY: 2.9, ampZ: 3.8, freq: 0.075, speed: 1.15, phase: 2.7, opacity: 0.26 },
+            { color: 0xFCEE0A, width: 1.1, yBase: -0.6, zBase:  1,  ampY: 3.1, ampZ: 3.2, freq: 0.082, speed: 1.25, phase: 4.1, opacity: 0.20 },
+            { color: 0x00FF9D, width: 3.4, yBase: -5.2, zBase: -12, ampY: 3.8, ampZ: 6.2, freq: 0.048, speed: 0.65, phase: 5.2, opacity: 0.18 },
+            { color: 0x00F0FF, width: 1.3, yBase:  4.2, zBase: -9,  ampY: 2.6, ampZ: 4.0, freq: 0.068, speed: 0.88, phase: 3.3, opacity: 0.18 }
+        ];
+
+        const SEGMENTS = 96;
+        const SPAN_X = 96;
+        const ribbons = ribbonConfigs.map((cfg) => {
+            const geom = new THREE.PlaneGeometry(SPAN_X, cfg.width, SEGMENTS, 1);
+            const mat = new THREE.MeshBasicMaterial({
+                color: cfg.color,
+                map: ribbonTex,
+                transparent: true,
+                opacity: cfg.opacity,
+                side: THREE.DoubleSide,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
+            });
+            const mesh = new THREE.Mesh(geom, mat);
+            streamGroup.add(mesh);
+            return { mesh, geom, cfg };
+        });
+
+        // B. 細緻的發光能量流線（細絲狀光脈）
+        const filamentConfigs = [
+            { color: 0x00F0FF, yBase: -2.2, zBase: 0,  ampY: 3.6, ampZ: 4.2, freq: 0.07, speed: 1.1, phase: 0.6, opacity: 0.65 },
+            { color: 0xFCEE0A, yBase:  0.8, zBase: 2,  ampY: 2.8, ampZ: 3.0, freq: 0.085, speed: 1.35, phase: 2.1, opacity: 0.55 },
+            { color: 0x00FF85, yBase: -4.0, zBase: -5, ampY: 4.0, ampZ: 5.0, freq: 0.06, speed: 0.85, phase: 3.8, opacity: 0.55 }
+        ];
+
+        const filaments = filamentConfigs.map((cfg) => {
+            const pts = new Float32Array((SEGMENTS + 1) * 3);
+            const geom = new THREE.BufferGeometry();
+            geom.setAttribute('position', new THREE.BufferAttribute(pts, 3));
+            const mat = new THREE.LineBasicMaterial({
+                color: cfg.color,
+                transparent: true,
+                opacity: cfg.opacity,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+            const line = new THREE.Line(geom, mat);
+            streamGroup.add(line);
+            return { line, geom, cfg };
+        });
+
+        // C. 順流飄散的魔晄發光微粒（Lifestream Motes）
+        function createStreamParticles(count, colorHex, size, opacity, speedScale) {
+            const pGeo = new THREE.BufferGeometry();
+            const positions = new Float32Array(count * 3);
+            const meta = [];
+
+            for (let i = 0; i < count; i++) {
+                const x = (Math.random() - 0.5) * 94;
+                const yOff = (Math.random() - 0.5) * 18;
+                const zOff = (Math.random() - 0.5) * 26 - 4;
+                const spd = (0.045 + Math.random() * 0.075) * speedScale;
+                const phase = Math.random() * Math.PI * 2;
+                const amp = 1.2 + Math.random() * 2.8;
+
+                positions[i * 3] = x;
+                positions[i * 3 + 1] = yOff;
+                positions[i * 3 + 2] = zOff;
+                meta.push({ yOff, zOff, spd, phase, amp });
+            }
+
+            pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const pMat = new THREE.PointsMaterial({
+                size,
+                map: glowTex,
+                color: colorHex,
+                transparent: true,
+                opacity,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
+            });
+            const points = new THREE.Points(pGeo, pMat);
+            scene.add(points);
+            return { points, pGeo, meta, count };
+        }
+
+        const motesCyan = createStreamParticles(520, 0x00F0FF, 0.86, 0.62, 1.0);
+        const motesMint = createStreamParticles(300, 0x00FF85, 0.72, 0.54, 0.82);
+        const motesGold = createStreamParticles(160, 0xFCEE0A, 0.80, 0.58, 1.18);
+        const moteLayers = [motesCyan, motesMint, motesGold];
+
+        let mx = 0, my = 0, t = 0;
+        document.addEventListener('mousemove', (e) => {
+            mx = (e.clientX / window.innerWidth) * 2 - 1;
+            my = -(e.clientY / window.innerHeight) * 2 + 1;
+        }, { passive: true });
+
+        function updateRibbons(time) {
+            ribbons.forEach(({ geom, cfg }) => {
+                const pos = geom.attributes.position;
+                const halfW = cfg.width * 0.5;
+                for (let i = 0; i <= SEGMENTS; i++) {
+                    const ratio = i / SEGMENTS;
+                    const x = (ratio - 0.5) * SPAN_X;
+                    const wave1 = Math.sin(x * cfg.freq - time * cfg.speed + cfg.phase);
+                    const wave2 = Math.cos(x * (cfg.freq * 0.55) - time * (cfg.speed * 0.65) + cfg.phase * 1.3);
+
+                    const centerY = cfg.yBase + wave1 * cfg.ampY + wave2 * (cfg.ampY * 0.42);
+                    const centerZ = cfg.zBase + Math.cos(x * cfg.freq * 0.8 - time * cfg.speed * 0.8 + cfg.phase) * cfg.ampZ;
+
+                    // 讓絲帶隨水流微微扭轉，呈現立體流動感
+                    const twist = Math.sin(x * 0.08 - time * cfg.speed + cfg.phase) * 0.95;
+                    const dy = Math.cos(twist) * halfW;
+                    const dz = Math.sin(twist) * halfW;
+
+                    const topIdx = i;
+                    const botIdx = i + (SEGMENTS + 1);
+                    pos.setXYZ(topIdx, x, centerY + dy, centerZ + dz);
+                    pos.setXYZ(botIdx, x, centerY - dy, centerZ - dz);
+                }
+                pos.needsUpdate = true;
+            });
+
+            filaments.forEach(({ geom, cfg }) => {
+                const pos = geom.attributes.position;
+                for (let i = 0; i <= SEGMENTS; i++) {
+                    const x = (i / SEGMENTS - 0.5) * SPAN_X;
+                    const y = cfg.yBase + Math.sin(x * cfg.freq - time * cfg.speed + cfg.phase) * cfg.ampY
+                              + Math.sin(x * 0.035 + time * 0.5) * 1.1;
+                    const z = cfg.zBase + Math.cos(x * cfg.freq * 0.85 - time * cfg.speed * 0.75 + cfg.phase) * cfg.ampZ;
+                    pos.setXYZ(i, x, y, z);
+                }
+                pos.needsUpdate = true;
+            });
+        }
+
+        function updateMotes(time) {
+            moteLayers.forEach(({ pGeo, meta, count }) => {
+                const pos = pGeo.attributes.position;
+                for (let i = 0; i < count; i++) {
+                    const m = meta[i];
+                    let x = pos.getX(i) + m.spd;
+                    if (x > 47) x = -47;
+                    const streamCurve = Math.sin(x * 0.065 - time * 0.9 + m.phase) * m.amp;
+                    const lift = Math.sin(time * 0.7 + m.phase) * 0.85;
+                    const y = m.yOff + streamCurve + lift;
+                    const z = m.zOff + Math.cos(x * 0.05 - time * 0.7 + m.phase) * 2.2;
+                    pos.setXYZ(i, x, y, z);
+                }
+                pos.needsUpdate = true;
+            });
+        }
+
+        function tick() {
+            requestAnimationFrame(tick);
+            if (document.hidden) return;
+            t += 0.016;
+
+            updateRibbons(t);
+            updateMotes(t);
+
+            streamGroup.rotation.z = Math.sin(t * 0.22) * 0.045;
+            camera.position.x += (mx * 3.2 - camera.position.x) * 0.035;
+            camera.position.y += (my * 2.2 + 2.5 - camera.position.y) * 0.035;
+            camera.lookAt(0, -0.5, -4);
+
+            renderer.render(scene, camera);
+        }
+        tick();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
     });
 
-    grid.appendChild(card);
-});
+    // ── 7. 精選影片清單（@VincentGame 頻道熱門前 12 部影片） ──
+    const ALL_VIDEOS = [
+        {
+            rank: 1,
+            id: 'Oq-0ujxZf8E',
+            title: '【 洛克人 X3 】快速教你 傑洛光刀 黃金鎧甲 取得方法 - 片尾附素身光刀密碼（ 詳細說明見說明欄 ）'
+        },
+        {
+            rank: 2,
+            id: '4JLBiW4AOe8',
+            title: '【 逆命殊途 】S+ 專業難度 艾達編 全章節攻略 - 對射擊遊戲不拿手的朋友必看 - （ 惡靈古堡 4 重製版 ）- 通關時間 01:48:17 下方有各章節傳送門'
+        },
+        {
+            rank: 3,
+            id: '4qT3KPsU1yI',
+            title: '【 快打旋風6 】如何使用「 真．豪鬼 」'
+        },
+        {
+            rank: 4,
+            id: 'PSiJyLl51tI',
+            title: '【 MHWilds 】穩定刷裝！消極攻擊也能有高輸出！如何躲掉大招？各種可能的狀況｜下方說明欄有傳送門｜巨戟龍｜ゴグマジオス｜魔物獵人荒野 Monster Hunter Wilds'
+        },
+        {
+            rank: 5,
+            id: 'TA25m9Oign0',
+            title: '【 戰神：諸神黃昏 】超簡單！赫爾羅夫克拉奇國王 戰神難度打法教學 God of War Ragnarok'
+        },
+        {
+            rank: 6,
+            id: 'ILSRGKVd6M0',
+            title: '【 洛克人 X2 】快速教你昇龍拳取得方法（ 敵人弱點、道具位置見下方說明欄 ）'
+        },
+        {
+            rank: 7,
+            id: 'ehPUMufy5Rk',
+            title: '「 不專業開箱分享 」PS5 手把充電座 DualSense Charging Station'
+        },
+        {
+            rank: 8,
+            id: '3FIhvirtA7Y',
+            title: '【 戰神：諸神黃昏 】實用！蓋娜-女武神攻略 戰神難度打法「 女王盔甲、滅跡之嵌件、女王怒吼 」道具演示 God of War Ragnarok Gna'
+        },
+        {
+            rank: 9,
+            id: 's31Yfqc3ouo',
+            title: '【 洛克人 X5 】教你如何取得 零件 備裝 道具（ 詳細說明見說明欄 ）'
+        },
+        {
+            rank: 10,
+            id: 'a7gAXqiOvIE',
+            title: '【 洛克人 X 】快速教你波動拳取得方法 - E罐不需吃滿（ 敵人弱點、道具位置見下方說明欄 ）'
+        },
+        {
+            rank: 11,
+            id: 'hcG7M_T9_SI',
+            title: '【 薩爾達傳說 時之笛 】別漏掉這隻隱藏怪物！紫色利巴出現條件公開｜圖鑑收集必看｜Ocarina of Time Remake'
+        },
+        {
+            rank: 12,
+            id: 'm5jtWETr9Ec',
+            title: '【 Final Fantasy XVI 】最終究極武器真的帥嗎？簡易取得方法說明 以及我的感想'
+        }
+    ];
+
+    function shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    const grid = document.getElementById('videos-grid');
+    function renderVideos(shouldShuffle = false) {
+        grid.innerHTML = '';
+        const list = shouldShuffle ? shuffle(ALL_VIDEOS) : ALL_VIDEOS;
+        list.forEach((video) => {
+            const card = document.createElement('article');
+            card.className = 'video-card';
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('role', 'button');
+            card.setAttribute('aria-label', `播放熱門影片第 ${video.rank} 名：${video.title}`);
+
+            const num = String(video.rank).padStart(2, '0');
+            const badgeText = video.rank <= 3 ? `TOP_${num} // HOT` : `TOP_${num} // 2027`;
+            card.innerHTML = `
+                <div class="card-tag">${badgeText}</div>
+                <div class="video-stage">
+                    <div class="thumb-wrap">
+                        <img src="https://i.ytimg.com/vi/${video.id}/hqdefault.jpg"
+                             alt="${video.title.replace(/"/g, '&quot;')}"
+                             loading="lazy">
+                        <div class="play-overlay">
+                            <div class="play-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <iframe src="" title="${video.title.replace(/"/g, '&quot;')}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="video-meta">
+                    <div class="video-title"></div>
+                    <div class="video-info">
+                        <span>CLICK TO STREAM // @VINCENTGAME</span>
+                        <span class="vi-dot" aria-hidden="true"></span>
+                    </div>
+                </div>
+            `;
+
+            card.querySelector('.video-title').textContent = video.title;
+
+            function playCard() {
+                if (card.classList.contains('playing')) return;
+                document.querySelectorAll('.video-card.playing').forEach(c => {
+                    c.classList.remove('playing');
+                    c.querySelector('iframe').src = '';
+                });
+                card.classList.add('playing');
+                card.querySelector('iframe').src =
+                    `https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0`;
+            }
+
+            card.addEventListener('click', playCard);
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    playCard();
+                }
+            });
+
+            grid.appendChild(card);
+        });
+    }
+
+    renderVideos(false);
+
+    const shuffleBtn = document.getElementById('shuffle-btn');
+    if (shuffleBtn) {
+        shuffleBtn.addEventListener('click', () => renderVideos(true));
+    }
+})();
 </script>
 </body>
 </html>
