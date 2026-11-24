@@ -1,44 +1,47 @@
 ---
-// Hero section - Clean, professional design
-const base = import.meta.env.BASE_URL;
+// Hero section - Minimal editorial design
 ---
 
 <section class="hero">
   <div class="hero-content">
-    <div class="greeting">遊戲攻略 × AI應用 × 資訊分享</div>
+    <div class="greeting">遊戲 × AI × 攻略</div>
     <h1 class="hero-title">
       <span class="title-text">遊戲實驗室</span>
     </h1>
-    <p class="hero-subtitle">探索者的記錄與足跡</p>
     <p class="hero-description">
-      遊戲攻略與 AI 工具應用
+      <span>拆解遊戲小知識</span>
+      <span>善用工具打造省力的日常</span>
     </p>
-    <div class="hero-buttons">
-      <a href="https://www.youtube.com/@VincentGame" target="_blank" class="btn btn-primary">
-        <span>前往 YouTube</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <div class="hero-actions">
+      <a
+        href="https://www.youtube.com/@VincentGame"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="action-pill"
+      >
+        <span class="action-tag">影音頻道</span>
+        <span class="action-divider" aria-hidden="true"></span>
+        <span class="action-label">前往 YouTube 頻道</span>
+        <svg class="action-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="5" y1="12" x2="19" y2="12"></line>
           <polyline points="12 5 19 12 12 19"></polyline>
         </svg>
       </a>
-      <a href={`${base}about/`} class="btn btn-secondary">
-        <span>關於我</span>
+
+      <a
+        href="https://vincentcodex.github.io/Marketing-Tools/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="action-pill"
+      >
+        <span class="action-tag">自製工具</span>
+        <span class="action-divider" aria-hidden="true"></span>
+        <span class="action-label">整合行銷工具盒</span>
+        <svg class="action-arrow action-arrow--ext" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="7" y1="17" x2="17" y2="7"></line>
+          <polyline points="7 7 17 7 17 17"></polyline>
+        </svg>
       </a>
-    </div>
-
-　　<!-- 行銷工具按鈕 -->
-　　<div class="tool-link">
-  　<a href="https://vincentcodex.github.io/Marketing-Tools/" target="_blank" rel="noopener" class="btn-tool">
-    　⭐️ 整合行銷工具盒 ⭐️
-  　</a>
-　</div>
-
-    <!-- Tech stack badges -->
-    <div class="tech-stack">
-      <span class="tech-badge">遊戲</span>
-      <span class="tech-badge">成長</span>
-      <span class="tech-badge">工具</span>
-      <span class="tech-badge">學習</span>
     </div>
   </div>
 
@@ -51,179 +54,161 @@ const base = import.meta.env.BASE_URL;
 
 <style>
   .hero {
-    min-height: 100vh;
+    min-height: 92vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
-    padding: calc(var(--nav-height) + 2rem) 2rem 4rem;
+    padding: calc(var(--nav-height) + 2rem) 2rem 3rem;
   }
 
   .hero-content {
     text-align: center;
     z-index: 10;
-    max-width: 800px;
+    max-width: 760px;
     animation: fadeInUp 0.8s ease-out;
   }
 
   .greeting {
-    font-size: clamp(1rem, 2vw, 1.25rem);
-    color: var(--color-primary);
-    margin-bottom: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.82rem;
+    color: #E2E8F0;
+    background: rgba(15, 23, 42, 0.58);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.42rem 1.15rem;
+    border-radius: 9999px;
+    margin-bottom: 1.5rem;
     font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    letter-spacing: 0.16em;
   }
 
   .hero-title {
     font-family: var(--font-heading);
-    font-size: clamp(3rem, 12vw, 7rem);
+    font-size: clamp(2.8rem, 11vw, 6.2rem);
     font-weight: 700;
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
-    line-height: 1;
+    margin-bottom: 1.35rem;
+    letter-spacing: 0.02em;
+    line-height: 1.08;
   }
 
   .title-text {
-    background: linear-gradient(135deg, var(--color-text) 0%, var(--color-primary) 50%, var(--color-accent-purple) 100%);
-    background-size: 200% auto;
+    background: linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 65%, #94A3B8 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: gradientFlow 4s ease infinite;
-  }
-
-  @keyframes gradientFlow {
-    0%, 100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-  }
-
-  .hero-subtitle {
-    font-family: var(--font-heading);
-    font-size: clamp(1.25rem, 3vw, 1.75rem);
-    color: var(--color-text);
-    margin-bottom: 1.5rem;
-    font-weight: 500;
   }
 
   .hero-description {
-    font-size: clamp(1rem, 1.5vw, 1.125rem);
-    color: var(--color-text-dim);
-    margin-bottom: 2.5rem;
-    line-height: 1.7;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 1.25rem;
+    row-gap: 0.35rem;
+    font-size: clamp(1.02rem, 2.2vw, 1.22rem);
+    color: #CBD5E1;
+    margin-bottom: 2.75rem;
+    line-height: 1.75;
+    letter-spacing: 0.04em;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
   }
 
-  .hero-buttons {
+  .hero-actions {
     display: flex;
-    gap: 1rem;
+    align-items: center;
     justify-content: center;
+    gap: 1rem;
     flex-wrap: wrap;
-    margin-bottom: 3rem;
   }
 
-  .tool-link {
-    margin-top: -1.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .btn-tool {
+  .action-pill {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.65rem 1.6rem;
+    justify-content: center;
+    gap: 0.7rem;
+    min-height: 52px;
+    padding: 0.75rem 1.45rem;
     font-size: 0.95rem;
     font-weight: 600;
-    color: white;
-    border: 1px solid var(--color-primary);
-    border-radius: 2rem;
-    text-decoration: none;
-    background: rgba(59, 130, 246, 0.08);
-    transition: all 0.2s ease;
-    letter-spacing: 0.03em;
-  }
-
-  .btn-tool:hover {
-    background: rgba(59, 130, 246, 0.18);
-    box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
-  }
-
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.875rem 1.75rem;
-    font-size: 1rem;
-    font-weight: 600;
     font-family: var(--font-body);
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
+    color: #F8FAFC;
+    background: rgba(15, 23, 42, 0.62);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 9999px;
     text-decoration: none;
-    transition: all 0.2s ease;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease,
+      color 0.25s ease;
   }
 
-  .btn-primary {
-    background: var(--color-primary);
-    color: white;
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+  .action-tag {
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #FB923C;
+    transition: color 0.25s ease;
   }
 
-  .btn-primary:hover {
-    background: #2563EB;
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  .action-divider {
+    width: 1px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.16);
+    transition: background-color 0.25s ease;
   }
 
-  .btn-primary svg {
-    transition: transform 0.2s ease;
+  .action-label {
+    letter-spacing: 0.02em;
   }
 
-  .btn-primary:hover svg {
-    transform: translateX(4px);
+  .action-arrow {
+    color: #FB923C;
+    transition: transform 0.25s ease, color 0.25s ease;
   }
 
-  .btn-secondary {
-    background: transparent;
-    color: var(--color-text);
-    border: 1px solid var(--color-border);
+  .action-pill:hover,
+  .action-pill:focus-visible {
+    transform: translateY(-3px);
+    background: rgba(234, 88, 12, 0.18);
+    border-color: rgba(249, 115, 22, 0.6);
+    color: #FFF7ED;
+    box-shadow: 0 12px 28px rgba(2, 6, 23, 0.4),
+      0 0 22px rgba(234, 88, 12, 0.24);
+    outline: none;
   }
 
-  .btn-secondary:hover {
-    background: rgba(59, 130, 246, 0.1);
-    border-color: var(--color-primary);
+  .action-pill:hover .action-tag,
+  .action-pill:focus-visible .action-tag {
+    color: #FED7AA;
   }
 
-  .tech-stack {
-    display: flex;
-    gap: 0.75rem;
-    justify-content: center;
-    flex-wrap: wrap;
+  .action-pill:hover .action-divider,
+  .action-pill:focus-visible .action-divider {
+    background: rgba(253, 186, 116, 0.35);
   }
 
-  .tech-badge {
-    padding: 0.5rem 1rem;
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid var(--color-border);
-    border-radius: 2rem;
-    font-size: 0.875rem;
-    color: var(--color-text-dim);
-    transition: all 0.2s ease;
+  .action-pill:hover .action-arrow,
+  .action-pill:focus-visible .action-arrow {
+    color: #FFF7ED;
+    transform: translateX(3px);
   }
 
-  .tech-badge:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+  .action-pill:hover .action-arrow--ext,
+  .action-pill:focus-visible .action-arrow--ext {
+    transform: translate(2px, -2px);
   }
 
-  /* Decorative glows */
+  /* Decorative glows - 柔和低調環境光 */
   .hero-decoration {
     position: absolute;
     width: 100%;
@@ -237,26 +222,27 @@ const base = import.meta.env.BASE_URL;
   .glow {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.4;
+    filter: blur(110px);
+    opacity: 0.2;
   }
 
   .glow-1 {
-    width: 400px;
-    height: 400px;
-    background: var(--color-primary);
-    top: 10%;
-    left: 10%;
-    animation: float 8s ease-in-out infinite;
+    width: 420px;
+    height: 420px;
+    background: #3B82F6;
+    top: 8%;
+    left: 12%;
+    animation: float 14s ease-in-out infinite;
   }
 
   .glow-2 {
-    width: 300px;
-    height: 300px;
-    background: var(--color-accent-purple);
-    bottom: 20%;
-    right: 10%;
-    animation: float 6s ease-in-out infinite reverse;
+    width: 340px;
+    height: 340px;
+    background: #EA580C;
+    bottom: 18%;
+    right: 12%;
+    opacity: 0.14;
+    animation: float 12s ease-in-out infinite reverse;
   }
 
   @keyframes fadeInUp {
@@ -294,18 +280,28 @@ const base = import.meta.env.BASE_URL;
 
   @media (max-width: 768px) {
     .hero {
-      padding-top: calc(var(--nav-height) + 3rem);
+      min-height: 82vh;
+      padding: calc(var(--nav-height) + 2.5rem) 1.25rem 3rem;
     }
 
-    .hero-buttons {
+    .hero-description {
       flex-direction: column;
       align-items: center;
+      row-gap: 0.25rem;
+      margin-bottom: 2.25rem;
     }
 
-    .btn {
+    .hero-actions {
+      flex-direction: column;
+      align-items: center;
       width: 100%;
-      max-width: 280px;
-      justify-content: center;
+      gap: 0.85rem;
+    }
+
+    .action-pill {
+      width: 100%;
+      max-width: 310px;
+      padding: 0.8rem 1.25rem;
     }
   }
 </style>

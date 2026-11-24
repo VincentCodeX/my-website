@@ -18,6 +18,7 @@ const otherProjects = allProjects.filter(p => !p.data.featured);
   <main class="projects-page">
     <div class="container">
       <header class="projects-header">
+        <span class="page-eyebrow">PROJECTS &amp; LAB</span>
         <h1 class="page-title">專案</h1>
         <p class="page-subtitle">
           這裡紀錄了我的專案集合 Side Projects。<br />遊戲內容創作、AI 工具應用與網頁架構，歡迎隨意瀏覽與交流！
@@ -78,7 +79,22 @@ const otherProjects = allProjects.filter(p => !p.data.featured);
 
   .projects-header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .page-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: #FB923C;
+    margin-bottom: 0.75rem;
+    padding: 0.3rem 0.85rem;
+    background: rgba(234, 88, 12, 0.1);
+    border: 1px solid rgba(249, 115, 22, 0.25);
+    border-radius: 9999px;
   }
 
   .page-title {
@@ -90,7 +106,7 @@ const otherProjects = allProjects.filter(p => !p.data.featured);
   }
 
   .page-subtitle {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: var(--color-text-dim);
     max-width: 500px;
     margin: 0 auto;
@@ -103,16 +119,28 @@ const otherProjects = allProjects.filter(p => !p.data.featured);
 
   .section-title {
     font-family: var(--font-heading);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
-    color: var(--color-primary);
+    color: #FDBA74;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .section-title::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: #EA580C;
+    box-shadow: 0 0 10px rgba(249, 115, 22, 0.7);
   }
 
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.75rem;
   }
 
   .featured-grid {

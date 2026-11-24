@@ -150,14 +150,26 @@ import Navigation from '../components/Navigation.astro';
   }
 
   .privacy-subtitle {
-    color: var(--color-primary);
-    font-size: 1.1rem;
+    color: #FB923C;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     margin-bottom: 0.5rem;
   }
 
   .updated {
     color: var(--color-text-dim);
     font-size: 0.85rem;
+  }
+
+  .privacy-body {
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.125rem;
+    padding: 2.5rem;
   }
 
   .privacy-body section {
@@ -168,10 +180,10 @@ import Navigation from '../components/Navigation.astro';
     font-family: var(--font-heading);
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--color-primary);
+    color: #FDBA74;
     margin-bottom: 0.75rem;
     padding-bottom: 0.4rem;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid rgba(249, 115, 22, 0.22);
   }
 
   .privacy-body h3 {
@@ -183,7 +195,7 @@ import Navigation from '../components/Navigation.astro';
 
   .privacy-body p,
   .privacy-body li {
-    color: var(--color-text-dim);
+    color: #CBD5E1;
     line-height: 1.8;
     font-size: 0.95rem;
   }
@@ -193,7 +205,7 @@ import Navigation from '../components/Navigation.astro';
   }
 
   .privacy-body a {
-    color: var(--color-primary);
+    color: #FB923C;
     text-decoration: underline;
     text-underline-offset: 3px;
   }

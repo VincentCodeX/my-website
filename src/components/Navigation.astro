@@ -8,24 +8,27 @@ const relativePath = currentPath.replace(base.slice(0, -1), '') || '/';
 
 <nav class="nav">
   <div class="nav-container">
-    <a href={base} class="logo" style="display:flex;align-items:center;gap:8px;"><img src={`${base}favicon.svg`} style="width:24px;height:24px;margin-top:2px;" />文森遊戲 ✦</a>
+    <a href={base} class="logo">
+      <img src={`${base}favicon.svg`} alt="" class="logo-icon" />
+      <span>文森遊戲</span>
+    </a>
 
     <div class="nav-links">
       <a href={base} class:list={['nav-link', { active: relativePath === '/' }]}>
         首頁
       </a>
-      <a href={`${base}blog/`} class:list={['nav-link', { active: relativePath.startsWith('/Blog') }]}>
+      <a href={`${base}blog/`} class:list={['nav-link', { active: relativePath.toLowerCase().startsWith('/blog') }]}>
         部落格
       </a>
-      <a href={`${base}projects/`} class:list={['nav-link', { active: relativePath.startsWith('/Projects') }]}>
+      <a href={`${base}projects/`} class:list={['nav-link', { active: relativePath.toLowerCase().startsWith('/projects') }]}>
         專案
       </a>
-      <a href={`${base}about/`} class:list={['nav-link', { active: relativePath.startsWith('/About') }]}>
+      <a href={`${base}about/`} class:list={['nav-link', { active: relativePath.toLowerCase().startsWith('/about') }]}>
         關於我
       </a>
-      <a href="/youtube/" class:list={['nav-link', { active: relativePath === '/youtube/' }]}>
-  頻道介紹
-</a>
+      <a href="/youtube/" class:list={['nav-link', { active: relativePath.toLowerCase().startsWith('/youtube') }]}>
+        頻道介紹
+      </a>
     </div>
 
     <!-- Mobile menu button -->
@@ -54,77 +57,84 @@ const relativePath = currentPath.replace(base.slice(0, -1), '') || '/';
   .nav {
     position: fixed;
     top: 1rem;
-    left: 1rem;
-    right: 1rem;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: calc(100% - 2rem);
+    max-width: 1200px;
     z-index: 1000;
-    padding: 1rem 1.5rem;
-    background: rgba(15, 23, 42, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--color-border);
-    border-radius: 1rem;
+    padding: 0.6rem 0.9rem 0.6rem 1.35rem;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 9999px;
+    box-shadow: 0 10px 34px rgba(2, 6, 23, 0.42);
     animation: slideDown 0.5s ease-out;
   }
 
   .nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
   .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
     font-family: var(--font-heading);
-    font-size: 1.25rem;
+    font-size: 1.12rem;
     font-weight: 700;
     text-decoration: none;
     letter-spacing: 0.05em;
-    color: var(--color-text);
-    transition: color 0.2s ease;
+    color: #F8FAFC;
+    transition: color 0.22s ease;
+  }
+
+  .logo-icon {
+    width: 22px;
+    height: 22px;
+    display: block;
   }
 
   .logo:hover {
-    color: var(--color-primary);
+    color: #FB923C;
   }
 
   .nav-links {
     display: flex;
-    gap: 2rem;
+    align-items: center;
+    gap: 0.35rem;
   }
 
   .nav-link {
-    color: var(--color-text-dim);
+    padding: 0.48rem 1rem;
+    color: #94A3B8;
     text-decoration: none;
     font-weight: 500;
-    font-size: 0.95rem;
-    position: relative;
-    transition: color 0.2s ease;
+    font-size: 0.9rem;
+    border-radius: 9999px;
+    border: 1px solid transparent;
+    transition: background-color 0.22s ease,
+      border-color 0.22s ease,
+      color 0.22s ease,
+      box-shadow 0.22s ease;
     cursor: pointer;
   }
 
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--color-primary);
-    transition: width 0.2s ease;
-  }
-
   .nav-link:hover {
-    color: var(--color-text);
-  }
-
-  .nav-link:hover::after,
-  .nav-link.active::after {
-    width: 100%;
+    color: #FFF7ED;
+    background: rgba(234, 88, 12, 0.14);
+    border-color: rgba(249, 115, 22, 0.28);
   }
 
   .nav-link.active {
-    color: var(--color-primary);
+    color: #FED7AA;
+    background: rgba(234, 88, 12, 0.2);
+    border-color: rgba(249, 115, 22, 0.45);
+    box-shadow: 0 0 14px rgba(234, 88, 12, 0.18);
   }
 
   .mobile-menu-btn {
@@ -180,7 +190,7 @@ const relativePath = currentPath.replace(base.slice(0, -1), '') || '/';
 
   .mobile-nav-link:hover,
   .mobile-nav-link.active {
-    color: var(--color-primary);
+    color: #FB923C;
   }
 
   @keyframes slideDown {
@@ -197,9 +207,8 @@ const relativePath = currentPath.replace(base.slice(0, -1), '') || '/';
   @media (max-width: 768px) {
     .nav {
       top: 0.75rem;
-      left: 0.75rem;
-      right: 0.75rem;
-      padding: 0.875rem 1rem;
+      width: calc(100% - 1.5rem);
+      padding: 0.55rem 0.85rem 0.55rem 1.15rem;
     }
 
     .nav-links {

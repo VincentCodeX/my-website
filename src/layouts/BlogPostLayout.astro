@@ -13,17 +13,11 @@ interface Props {
 
 const { title, description, pubDate, updatedDate, tags, heroImage } = Astro.props;
 const base = import.meta.env.BASE_URL;
-const formattedPubDate = pubDate.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const formatYmd = (date: Date) =>
+  `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 
-const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const formattedPubDate = formatYmd(pubDate);
+const formattedUpdatedDate = updatedDate ? formatYmd(updatedDate) : undefined;
 ---
 
 <BaseLayout title={`${title} - 文森遊戲`} description={description} ogImage={heroImage}>
@@ -74,36 +68,61 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
   }
 
   .back-link {
-    display: inline-block;
-    color: var(--color-accent-purple);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 1rem;
+    background: rgba(15, 23, 42, 0.62);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 9999px;
+    color: #F8FAFC;
     text-decoration: none;
     margin-bottom: 2rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease,
+      color 0.25s ease;
   }
 
-  .back-link:hover {
-    transform: translateX(-5px);
-    color: var(--color-accent-pink);
+  .back-link:hover,
+  .back-link:focus-visible {
+    transform: translate(-3px, -2px);
+    background: rgba(234, 88, 12, 0.18);
+    border-color: rgba(249, 115, 22, 0.6);
+    color: #FFF7ED;
+    box-shadow: 0 10px 24px rgba(2, 6, 23, 0.35),
+      0 0 18px rgba(234, 88, 12, 0.22);
+    outline: none;
   }
 
   .post-title {
-    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-size: clamp(2.2rem, 5.5vw, 3.5rem);
     font-weight: 900;
     margin-bottom: 1rem;
-    line-height: 1.2;
+    line-height: 1.25;
   }
 
   .post-meta {
     display: flex;
+    align-items: center;
     gap: 1.5rem;
     margin-bottom: 1rem;
     font-size: 0.875rem;
   }
 
   .post-date {
-    color: var(--color-accent-purple);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #FB923C;
     font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
   }
 
   .post-updated {
@@ -118,18 +137,21 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
   }
 
   .tag {
-    padding: 0.25rem 0.75rem;
-    background: rgba(168, 85, 247, 0.1);
-    border: 1px solid rgba(168, 85, 247, 0.3);
-    border-radius: 0.25rem;
+    padding: 0.28rem 0.75rem;
+    background: rgba(234, 88, 12, 0.12);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    border-radius: 9999px;
     font-size: 0.75rem;
-    color: var(--color-accent-purple);
+    font-weight: 500;
+    color: #FED7AA;
   }
 
   .post-content {
-    background: var(--color-bg-card);
-    border: 1px solid rgba(168, 85, 247, 0.2);
-    border-radius: 1rem;
+    background: rgba(15, 23, 42, 0.68);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.125rem;
     padding: 3rem;
     animation: fadeInUp 1s ease-out 0.2s backwards;
   }
@@ -145,33 +167,34 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
   }
 
   .post-content :global(h2) {
-    font-size: 2rem;
-    background: linear-gradient(135deg, var(--color-accent-purple), var(--color-accent-pink));
+    font-size: 1.85rem;
+    background: linear-gradient(135deg, #FFF7ED 0%, #FB923C 55%, #EA580C 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
   .post-content :global(h3) {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    color: #FED7AA;
   }
 
   .post-content :global(p) {
-    line-height: 1.8;
+    line-height: 1.85;
     margin-bottom: 1.5rem;
-    color: var(--color-text-dim);
+    color: #CBD5E1;
   }
 
   .post-content :global(a) {
-    color: var(--color-accent-purple);
+    color: #FB923C;
     text-decoration: none;
-    border-bottom: 1px solid var(--color-accent-purple);
-    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(249, 115, 22, 0.5);
+    transition: all 0.25s ease;
   }
 
   .post-content :global(a:hover) {
-    color: var(--color-accent-pink);
-    border-color: var(--color-accent-pink);
+    color: #FED7AA;
+    border-color: #FED7AA;
   }
 
   .post-content :global(.btn) {

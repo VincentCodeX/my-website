@@ -16,12 +16,14 @@ const recentPosts = allBlogPosts
 <BaseLayout title="文森｜遊戲攻略 × AI應用 × 資訊分享" description="黃昇瑞 Vincent 的個人網站，分享遊戲攻略、AI 工具實測與創作心得" ogImage="/og-image.jpg">
   <Navigation />
   <Hero />
-  <Skills />
 
   <section class="recent-posts">
     <div class="container">
-      <h2 class="section-title">最近文章</h2>
-      <p class="section-subtitle">部落格中的最新文章</p>
+      <header class="section-header">
+        <span class="section-eyebrow">LATEST POSTS</span>
+        <h2 class="section-title">最新文章</h2>
+        <p class="section-subtitle">近期發表的遊戲觀察、AI 實測與生活筆記</p>
+      </header>
       <div class="posts-grid">
         {recentPosts.map((post) => (
           <BlogCard
@@ -30,6 +32,8 @@ const recentPosts = allBlogPosts
             pubDate={post.data.pubDate}
             slug={post.id}
             tags={post.data.tags}
+            heroImage={post.data.heroImage}
+            variant="minimal-orange"
           />
         ))}
       </div>
@@ -44,17 +48,47 @@ const recentPosts = allBlogPosts
       </div>
     </div>
   </section>
+
+  <Skills />
 </BaseLayout>
 
 <style>
   .recent-posts {
-    padding: 6rem 2rem 8rem;
+    padding: 5rem 2rem 6rem;
     position: relative;
   }
 
   .container {
     max-width: 1200px;
     margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: #CBD5E1;
+    margin-bottom: 0.75rem;
+    padding: 0.35rem 0.9rem;
+    background: rgba(15, 23, 42, 0.58);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 9999px;
+  }
+
+  .eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: #EA580C;
+    box-shadow: 0 0 8px rgba(249, 115, 22, 0.8);
   }
 
   .section-title {
@@ -69,14 +103,14 @@ const recentPosts = allBlogPosts
   .section-subtitle {
     text-align: center;
     color: var(--color-text-dim);
-    font-size: 1.1rem;
-    margin-bottom: 3rem;
+    font-size: 1.05rem;
+    margin-bottom: 0;
   }
 
   .posts-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.75rem;
     margin-bottom: 3rem;
   }
 
@@ -87,35 +121,50 @@ const recentPosts = allBlogPosts
   .btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.875rem 1.75rem;
-    font-size: 1rem;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 50px;
+    padding: 0.75rem 1.75rem;
+    font-size: 0.95rem;
     font-weight: 600;
     font-family: var(--font-body);
-    border: none;
-    border-radius: 0.5rem;
+    border-radius: 9999px;
     cursor: pointer;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease,
+      color 0.25s ease;
   }
 
   .btn-secondary {
-    background: transparent;
-    color: var(--color-text);
-    border: 1px solid var(--color-border);
-  }
-
-  .btn-secondary:hover {
-    background: rgba(59, 130, 246, 0.1);
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+    background: rgba(15, 23, 42, 0.62);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    color: #F8FAFC;
+    border: 1px solid rgba(255, 255, 255, 0.14);
   }
 
   .btn-secondary svg {
-    transition: transform 0.2s ease;
+    color: #FB923C;
+    transition: transform 0.25s ease, color 0.25s ease;
   }
 
-  .btn-secondary:hover svg {
+  .btn-secondary:hover,
+  .btn-secondary:focus-visible {
+    transform: translateY(-3px);
+    background: rgba(234, 88, 12, 0.18);
+    border-color: rgba(249, 115, 22, 0.6);
+    color: #FFF7ED;
+    box-shadow: 0 12px 28px rgba(2, 6, 23, 0.4),
+      0 0 22px rgba(234, 88, 12, 0.24);
+    outline: none;
+  }
+
+  .btn-secondary:hover svg,
+  .btn-secondary:focus-visible svg {
+    color: #FFF7ED;
     transform: translateX(4px);
   }
 

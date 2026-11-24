@@ -4,8 +4,11 @@
 
 <section class="skills">
   <div class="container">
-    <h2 class="section-title">技能與知識</h2>
-    <p class="section-subtitle">我所使用的工具</p>
+    <header class="section-header">
+      <span class="section-eyebrow">SKILLS &amp; STACK</span>
+      <h2 class="section-title">技能與知識</h2>
+      <p class="section-subtitle">我所使用的工具與持續探索的領域</p>
+    </header>
 
     <div class="skills-grid">
       <div class="skill-category">
@@ -96,9 +99,9 @@
         </div>
       </div>
 
-      <div class="skill-category learning-category">
+      <div class="skill-category">
         <div class="category-header">
-          <div class="category-icon learning">
+          <div class="category-icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -117,10 +120,10 @@
           <h3 class="category-title">持續探索中</h3>
         </div>
         <div class="skill-list">
-          <span class="skill-tag learning">新世代 AI 模型實測</span>
-          <span class="skill-tag learning">進階自動化流程串接</span>
-          <span class="skill-tag learning">Google Analytics</span>
-          <span class="skill-tag learning">n8n / Make.com</span>
+          <span class="skill-tag">新世代 AI 模型實測</span>
+          <span class="skill-tag">進階自動化流程串接</span>
+          <span class="skill-tag">Google Analytics</span>
+          <span class="skill-tag">n8n / Make.com</span>
         </div>
       </div>
     </div>
@@ -129,13 +132,41 @@
 
 <style>
   .skills {
-    padding: 6rem 2rem;
+    padding: 5rem 2rem 8rem;
     position: relative;
   }
 
   .container {
     max-width: 1200px;
     margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: #CBD5E1;
+    margin-bottom: 0.75rem;
+    padding: 0.35rem 0.9rem;
+    background: rgba(15, 23, 42, 0.58);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 9999px;
+  }
+
+  .eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: #EA580C;
+    box-shadow: 0 0 8px rgba(249, 115, 22, 0.8);
   }
 
   .section-title {
@@ -150,93 +181,99 @@
   .section-subtitle {
     text-align: center;
     color: var(--color-text-dim);
-    font-size: 1.1rem;
-    margin-bottom: 3rem;
+    font-size: 1.05rem;
+    margin-bottom: 0;
   }
 
   .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
   }
 
   .skill-category {
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: 1rem;
-    padding: 1.5rem;
-    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.125rem;
+    padding: 1.75rem;
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.28s ease,
+      box-shadow 0.28s ease,
+      background-color 0.28s ease;
   }
 
   .skill-category:hover {
-    border-color: var(--color-primary);
-    box-shadow: 0 8px 30px rgba(59, 130, 246, 0.15);
-  }
-
-  .learning-category:hover {
-    border-color: var(--color-accent-purple);
-    box-shadow: 0 8px 30px rgba(139, 92, 246, 0.15);
+    transform: translateY(-4px);
+    background: rgba(15, 23, 42, 0.78);
+    border-color: rgba(249, 115, 22, 0.45);
+    box-shadow: 0 14px 36px rgba(2, 6, 23, 0.45),
+      0 0 24px rgba(234, 88, 12, 0.14);
   }
 
   .category-header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.85rem;
+    padding-bottom: 1.1rem;
     margin-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   }
 
   .category-icon {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(59, 130, 246, 0.1);
-    border-radius: 0.5rem;
-    color: var(--color-primary);
-  }
-
-  .category-icon.learning {
-    background: rgba(139, 92, 246, 0.1);
-    color: var(--color-accent-purple);
+    background: rgba(234, 88, 12, 0.14);
+    border: 1px solid rgba(249, 115, 22, 0.28);
+    border-radius: 0.7rem;
+    color: #FB923C;
   }
 
   .category-title {
     font-family: var(--font-heading);
-    font-size: 1.125rem;
+    font-size: 1.15rem;
     font-weight: 600;
-    color: var(--color-text);
+    color: #F8FAFC;
+  }
+
+  .category-badge {
+    margin-left: auto;
+    padding: 0.22rem 0.65rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #FED7AA;
+    background: rgba(234, 88, 12, 0.14);
+    border: 1px solid rgba(249, 115, 22, 0.35);
+    border-radius: 9999px;
   }
 
   .skill-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.6rem;
   }
 
   .skill-tag {
-    padding: 0.375rem 0.75rem;
-    background: rgba(59, 130, 246, 0.08);
-    border: 1px solid var(--color-border);
-    border-radius: 0.375rem;
-    font-size: 0.8rem;
-    color: var(--color-text-dim);
+    padding: 0.4rem 0.85rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 9999px;
+    font-size: 0.82rem;
+    color: #CBD5E1;
     transition: all 0.2s ease;
   }
 
   .skill-tag:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-  }
-
-  .skill-tag.learning {
-    background: rgba(139, 92, 246, 0.08);
-    border-color: rgba(139, 92, 246, 0.3);
-  }
-
-  .skill-tag.learning:hover {
-    border-color: var(--color-accent-purple);
-    color: var(--color-accent-purple);
+    border-color: rgba(249, 115, 22, 0.45);
+    background: rgba(234, 88, 12, 0.14);
+    color: #FFF7ED;
   }
 
   @media (max-width: 768px) {
