@@ -43,7 +43,11 @@ description: 部落格文章自動化配圖、800x422 WebP 轉檔、SEO alt 標�
 
 ---
 
-### 4. SEO 最佳化與 HTML 標籤注入 (SEO Optimization)
+### 4. 內文閱讀性與 SEO 最佳化 (Readability & SEO Optimization)
+- **深色版型閱讀性優化（避免字牆）**：
+  - 網站採用深色毛玻璃版型（`BlogPostLayout.astro`），`<ul><li>` 預設字色偏暗且行距較窄，因此**嚴禁在圓點清單項目中塞入超過 2 句的長段落**；凡是長篇觀點或條列分析，一律改用 **`###` 獨立小標題（暖橘金色）搭配 2～3 句一段的短段落**。
+  - 精簡同一句話內連續出現的多餘英文括號註解，保持行文流暢；在每小節核心金句加上 **粗體強調** 方便讀者掃讀；遇到多平台分數或數據比較時，可加入深色圓角 HTML 對照表。
+  - **100% 保留作者原本的第一人稱語氣、個人體感與核心觀點**，不竄改原意。
 - **繁體中文 Alt 屬性**：為每一張圖片撰寫富含繁體中文關鍵字、精確描述圖片內容與段落主旨的 `alt` 屬性（不得使用空白或預設檔名）。
 - **HTML 圖片容器結構**：在 Markdown 中將圖片統一改寫為以下標準置中且響應式的 HTML 結構：
   ```html
@@ -64,12 +68,14 @@ description: 部落格文章自動化配圖、800x422 WebP 轉檔、SEO alt 標�
 
 ---
 
-### 5. 雙位置同步發布與日誌更新 (Sync & Log)
-處理完成後，將檔案同步發布至指定位置：
-1. **正式部落格文章目錄**：`/Users/vincent/Desktop/my-website/src/content/blog/<filename>.md`（覆蓋/寫入）。
-2. **桌面備份**：`/Users/vincent/Desktop/<filename>.md`（同步更新為帶有 SEO 的最新格式）。
-3. **圖片資源目錄**：`/Users/vincent/Desktop/my-website/public/images/<image-slug>.webp`。
-4. **更新成果日誌**：在 `/Users/vincent/.gemini/antigravity/brain/<conversation-id>/walkthrough.md` 尾端追加本次優化規格與成果紀錄。
+### 5. 嚴格順序同步發布與日誌更新 (Strict Order Sync & Log)
+> **⚠️ 關鍵防漏圖規則（必讀）**：專案設有監聽 `src/content/blog/` 的自動 Commit & Push 背景腳本！一旦 `.md` 寫入 `src/content/blog/` 就會在數秒內自動打包推送。因此**絕對不可將「複製圖片」與「寫入正式部落格 `.md`」放在同一個平行回合執行**！
+
+請嚴格遵守以下**先後順序**分步執行：
+1. **第一步（先放圖片）**：將所有轉檔完成的 `.webp` 圖片複製到 `/Users/vincent/Desktop/my-website/public/images/<image-slug>.webp`，並確認檔案皆已就位。
+2. **第二步（更新桌面備份）**：更新 `/Users/vincent/Desktop/<filename>.md`。
+3. **第三步（最後才寫入正式文章觸發自動發布）**：確認圖片都已在 `public/images/` 後，才將最終 `.md` 寫入 `/Users/vincent/Desktop/my-website/src/content/blog/<filename>.md`，讓自動發布腳本把圖片與文章一起打包推送。
+4. **第四步（驗證 Git 狀態與更新日誌）**：檢查 `.git` 紀錄或 `git status`，確認圖片沒有遺留在未追蹤（`??`）狀態，並在 `/Users/vincent/.gemini/antigravity/brain/<conversation-id>/walkthrough.md` 尾端追加本次成果紀錄。
 
 ---
 
